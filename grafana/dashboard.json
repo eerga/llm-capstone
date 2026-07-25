@@ -1,0 +1,98 @@
+{
+  "title": "Movie Assistant",
+  "uid": "movie-assistant",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "30s",
+  "time": {"from": "now-6h", "to": "now"},
+  "panels": [
+    {
+      "id": 1,
+      "title": "Last 5 Conversations",
+      "type": "table",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+      "targets": [{
+        "datasource": "MovieAssistantDB",
+        "rawSql": "SELECT timestamp, question, answer, model, prompt_version, relevance, response_time, openai_cost FROM conversations ORDER BY timestamp DESC LIMIT 5;",
+        "format": "table"
+      }],
+      "options": {"sortBy": [{"displayName": "timestamp", "desc": true}]}
+    },
+    {
+      "id": 2,
+      "title": "Response Time",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "targets": [{
+        "datasource": "MovieAssistantDB",
+        "rawSql": "SELECT timestamp AS time, response_time FROM conversations WHERE $__timeFilter(timestamp) ORDER BY timestamp;",
+        "format": "time_series"
+      }],
+      "fieldConfig": {"defaults": {"unit": "s"}}
+    },
+    {
+      "id": 3,
+      "title": "Token Usage",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "targets": [{
+        "datasource": "MovieAssistantDB",
+        "rawSql": "SELECT $__timeGroup(timestamp, $__interval) AS time, AVG(total_tokens) AS avg_tokens FROM conversations WHERE $__timeFilter(timestamp) GROUP BY 1 ORDER BY 1;",
+        "format": "time_series"
+      }]
+    },
+    {
+      "id": 4,
+      "title": "Cost Over Time",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+      "targets": [{
+        "datasource": "MovieAssistantDB",
+        "rawSql": "SELECT $__timeGroup(timestamp, $__interval) AS time, SUM(openai_cost) AS cost FROM conversations WHERE $__timeFilter(timestamp) AND openai_cost > 0 GROUP BY 1 ORDER BY 1;",
+        "format": "time_series"
+      }],
+      "fieldConfig": {"defaults": {"unit": "currencyUSD"}}
+    },
+    {
+      "id": 5,
+      "title": "Model Usage",
+      "type": "barchart",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+      "targets": [{
+        "datasource": "MovieAssistantDB",
+        "rawSql": "SELECT model, COUNT(*) AS count FROM conversations GROUP BY model ORDER BY count DESC;",
+        "format": "table"
+      }]
+    },
+    {
+      "id": 6,
+      "title": "Relevance Distribution",
+      "type": "piechart",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+      "targets": [{
+        "datasource": "MovieAssistantDB",
+        "rawSql": "SELECT COUNT(*) FILTER (WHERE relevance = 'RELEVANT') AS \"RELEVANT\", COUNT(*) FILTER (WHERE relevance = 'PARTLY_RELEVANT') AS \"PARTLY_RELEVANT\", COUNT(*) FILTER (WHERE relevance = 'NON_RELEVANT') AS \"NON_RELEVANT\" FROM conversations;",
+        "format": "table"
+      }],
+      "options": {
+        "legend": {"displayMode": "table", "placement": "right", "values": ["value", "percent"]},
+        "displayLabels": ["name", "value", "percent"]
+      }
+    },
+    {
+      "id": 7,
+      "title": "User Feedback",
+      "type": "piechart",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+      "targets": [{
+        "datasource": "MovieAssistantDB",
+        "rawSql": "SELECT COUNT(*) FILTER (WHERE feedback = 1) AS \"Positive\", COUNT(*) FILTER (WHERE feedback = -1) AS \"Negative\" FROM feedback;",
+        "format": "table"
+      }],
+      "options": {
+        "legend": {"displayMode": "table", "placement": "right", "values": ["value", "percent"]},
+        "displayLabels": ["name", "value", "percent"]
+      }
+    }
+  ]
+}

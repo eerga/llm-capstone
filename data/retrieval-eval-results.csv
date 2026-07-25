@@ -1,0 +1,13 @@
+gt_model,embedding,method,hit_rate,mrr
+gpt-5.4-mini,all-MiniLM-L6-v2,minsearch,0.3493,0.1699
+gpt-5.4-mini,all-MiniLM-L6-v2,faiss,0.5407,0.3379
+gpt-5.4-mini,all-MiniLM-L6-v2,rrf,0.5533,0.3326
+gpt-5.4-mini,multi-qa-MiniLM-L6-cos-v1,minsearch,0.3493,0.1699
+gpt-5.4-mini,multi-qa-MiniLM-L6-cos-v1,faiss,0.5055,0.3149
+gpt-5.4-mini,multi-qa-MiniLM-L6-cos-v1,rrf,0.532,0.3114
+gpt-5.6-luna,all-MiniLM-L6-v2,minsearch,0.3875,0.1931
+gpt-5.6-luna,all-MiniLM-L6-v2,faiss,0.5973,0.3856
+gpt-5.6-luna,all-MiniLM-L6-v2,rrf,0.6092,0.381
+gpt-5.6-luna,multi-qa-MiniLM-L6-cos-v1,minsearch,0.3875,0.1931
+gpt-5.6-luna,multi-qa-MiniLM-L6-cos-v1,faiss,0.5557,0.3569
+gpt-5.6-luna,multi-qa-MiniLM-L6-cos-v1,rrf,0.5815,0.3605
