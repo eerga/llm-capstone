@@ -175,6 +175,17 @@ Ground truth generated with `gpt-5.4-mini` and `gpt-5.6-luna` (6000 pairs each, 
 
 **Winner: RRF + `all-MiniLM-L6-v2`** — best hit rate (0.609); used as the default in production.
 
+### Boost tuning results
+
+Minsearch boost weights were tuned by iterating 64 combinations of title/keywords/overview boosts on 500 ground truth questions. Best combination vs default:
+
+| | title | keywords | overview | Hit Rate | MRR |
+|---|---|---|---|---|---|
+| Default | 3.0 | 2.0 | 1.5 | 0.334 | 0.163 |
+| **Tuned** | **1.0** | **2.0** | **2.0** | **0.620** | **0.409** |
+
+Overview and keywords matter more than title for movie retrieval — the tuned weights are used in production.
+
 ### LLM-as-judge evaluation results
 
 200 questions evaluated per combination (2 models × 2 prompts = 800 total RAG calls).

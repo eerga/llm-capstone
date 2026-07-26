@@ -1,7 +1,3 @@
-movies_raw.json
-movies_clean.csv
-ground-truth-retrieval.csv
-rag-eval-results.csv
 .envrc
 .env
 __pycache__/

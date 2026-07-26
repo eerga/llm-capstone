@@ -17,7 +17,7 @@ EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM
 
 TEXT_FIELDS = ["title", "overview", "genres", "keywords", "tagline"]
 KEYWORD_FIELDS = ["release_year", "vote_bucket"]
-BOOST = {"title": 3.0, "keywords": 2.0, "overview": 1.5, "tagline": 1.0, "genres": 1.0}
+BOOST = {"title": 1.0, "keywords": 2.0, "overview": 2.0, "tagline": 0.5, "genres": 0.5}
 
 _records: list[dict] = []
 _minsearch_index: Index | None = None
@@ -47,8 +47,8 @@ def _load():
     _faiss_ids = [str(r["id"]) for r in _records]
 
 
-def search_minsearch(query: str, filter_dict: dict | None = None, num_results: int = 10) -> list[dict]:
-    return _minsearch_index.search(query, filter_dict=filter_dict, boost_dict=BOOST, num_results=num_results)
+def search_minsearch(query: str, filter_dict: dict | None = None, num_results: int = 10, boost: dict | None = None) -> list[dict]:
+    return _minsearch_index.search(query, filter_dict=filter_dict, boost_dict=boost or BOOST, num_results=num_results)
 
 
 def search_faiss(query: str, num_results: int = 10) -> list[dict]:
