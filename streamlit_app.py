@@ -1,11 +1,16 @@
-import os
-import requests
+import uuid
 import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv(".envrc")
 
-API_URL = os.getenv("API_URL", "http://localhost:5000")
+# Import RAG pipeline directly — no Flask needed
+from movie_assistant.rag import rag
+from movie_assistant.db import save_conversation, save_feedback
+from movie_assistant.db_prep import init_db
+
+# Initialize DB schema on startup
+init_db()
 
 st.title("Movie Assistant")
 st.caption("Ask me anything about movies — recommendations, genres, directors, vibes.")
@@ -24,43 +29,32 @@ if st.button("Ask", type="primary"):
     else:
         with st.spinner("Thinking..."):
             try:
-                resp = requests.post(
-                    f"{API_URL}/question",
-                    json={"question": question, "model": model, "prompt_version": prompt_version},
-                    timeout=60,
-                )
-                resp.raise_for_status()
-                data = resp.json()
+                result = rag(question, model=model, prompt_version=prompt_version)
+                conversation_id = str(uuid.uuid4())
+                data = result.model_dump()
+                data["response_time"] = 0.0
+                save_conversation(conversation_id, question, data)
 
-                st.success(data["answer"])
-
+                st.success(result.answer)
                 st.caption(
-                    f"Model: `{data['model']}` | "
-                    f"Prompt: `{data.get('prompt_version','?')}` | "
-                    f"Relevance: `{data['relevance']}`"
+                    f"Model: `{result.model}` | "
+                    f"Prompt: `{result.prompt_version}` | "
+                    f"Relevance: `{result.relevance}`"
                 )
-
-                st.session_state.conversation_id = data["conversation_id"]
+                st.session_state.conversation_id = conversation_id
 
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# Feedback buttons — always visible after a response
 if "conversation_id" in st.session_state:
     st.divider()
     st.write("Was this answer helpful?")
     fb_col1, fb_col2 = st.columns(2)
     with fb_col1:
         if st.button("👍 Yes"):
-            requests.post(
-                f"{API_URL}/feedback",
-                json={"conversation_id": st.session_state.conversation_id, "feedback": 1},
-            )
+            save_feedback(st.session_state.conversation_id, 1)
             st.success("Thanks!")
     with fb_col2:
         if st.button("👎 No"):
-            requests.post(
-                f"{API_URL}/feedback",
-                json={"conversation_id": st.session_state.conversation_id, "feedback": -1},
-            )
+            save_feedback(st.session_state.conversation_id, -1)
             st.success("Thanks for the feedback!")

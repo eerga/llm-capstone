@@ -4,15 +4,21 @@ PostgreSQL helpers — all reads and writes for conversations and feedback.
 
 import os
 from datetime import datetime, timezone
+from pathlib import Path
 
 import psycopg2
 from psycopg2.extras import DictCursor
+from dotenv import load_dotenv
 
-_DATABASE_URL = os.getenv("DATABASE_URL")
+# Load .envrc or .env from project root
+_ROOT = Path(__file__).parent.parent
+load_dotenv(_ROOT / ".envrc")
+load_dotenv(_ROOT / ".env")
 
 def _conn():
-    if _DATABASE_URL:
-        return psycopg2.connect(_DATABASE_URL, sslmode="require")
+    database_url = os.getenv("DATABASE_URL")
+    if database_url:
+        return psycopg2.connect(database_url, sslmode="require")
     return psycopg2.connect(
         host=os.getenv("POSTGRES_HOST", "localhost"),
         port=int(os.getenv("POSTGRES_PORT", "5432")),

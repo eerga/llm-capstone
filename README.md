@@ -45,7 +45,7 @@ Automated weekly pipeline that fetches and cleans movie data from the TMDB API.
 | Pipeline typing | pydantic-ai |
 | UI | Streamlit |
 | API | Flask |
-| Storage | PostgreSQL 16 |
+| Storage | PostgreSQL 16 (local via Docker) or [Neon](https://neon.tech) (free cloud Postgres) |
 | Monitoring | Grafana |
 | Ingestion pipeline | Kestra (automated, scheduled weekly) |
 
@@ -102,7 +102,12 @@ Edit `.envrc` and fill in:
 ```
 OPENAI_API_KEY=your_openai_key
 TMDB_API_KEY=your_tmdb_key
+DATABASE_URL=postgresql://user:password@host/dbname?sslmode=require
 ```
+
+**PostgreSQL options:**
+- **Local** (default): leave `DATABASE_URL` unset — uses the Docker Compose Postgres on `localhost:5432`
+- **Neon** (free cloud Postgres): sign up at [neon.tech](https://neon.tech), create a project, copy the connection string into `DATABASE_URL`
 
 Then load it:
 
@@ -166,6 +171,29 @@ Open [http://localhost:8501](http://localhost:8501) in your browser.
 | `make kestra-ingest` | Trigger the movie ingestion flow via API |
 | `make kestra-copy` | Download Kestra-generated CSV to `data/` |
 | `make restart` | `down` + `up` + `grafana` |
+
+### Neon Screenshots
+
+#### Tables view — conversations and feedback rows visible after first use
+
+![Conversations Table](img/conversations_table.png)
+![Feedback Table](img/feedback_table.png)
+
+#### SQL Editor — run queries directly against your Neon database
+
+![Conversations SQL Editor](img/conversations_sql_editor.png)
+![Feedback SQL Editor](img/feedback_sql_editor.png)
+
+Example queries:
+```sql
+-- View recent conversations
+SELECT timestamp, question, relevance, openai_cost FROM conversations ORDER BY timestamp DESC LIMIT 10;
+
+-- View feedback
+SELECT c.question, f.feedback, f.timestamp
+FROM feedback f JOIN conversations c ON f.conversation_id = c.id
+ORDER BY f.timestamp DESC LIMIT 10;
+```
 
 ---
 
