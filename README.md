@@ -10,8 +10,8 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 | Service | URL |
 |---|---|
+| Streamlit UI | [movie-recommend67.streamlit.app](https://movie-recommend67.streamlit.app) |
 | Grafana Dashboard | [wisemullet536.grafana.net](https://wisemullet536.grafana.net/d/movie-assistant/movie-assistant?orgId=1&from=now-6h&to=now&timezone=browser&refresh=30s) |
-| Streamlit UI | _coming soon_ |
 
 ---
 
