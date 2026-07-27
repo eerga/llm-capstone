@@ -1,12 +1,12 @@
 # Movie Assistant
 
-A RAG-powered movie recommendation chatbot built for the LLM Zoomcamp capstone.
+Still scrolling for over an hour on Netflix hoping to find something to watch? Your pursuit is over. Movie Assistant is a RAG-powered chatbot that knows what you're in the mood for — just describe it, and it'll find THE movie you'll actually watch and love.
 
-Ask it natural language questions like _"mind-bending sci-fi like Inception"_ or _"best Coen Brothers films"_ and it retrieves relevant movies from a TMDB dataset and synthesises a grounded recommendation.
+Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but not stupid"_, or _"best Coen Brothers films"_ and it retrieves relevant movies from a 2000-title TMDB dataset and synthesises a grounded recommendation — no hallucinated titles, no generic lists.
+
+> **Note:** This is a capstone project for the [LLM Zoomcamp 2026](https://github.com/DataTalksClub/llm-zoomcamp) course. It is not for profit and is open for testing.
 
 ---
-
-## Screenshots
 
 ### Streamlit UI
 ![Streamlit UI](img/streamlit.png)
@@ -42,7 +42,7 @@ Movie data is fetched and cleaned automatically via a [Kestra](https://kestra.io
 
 1. Fetches ~2000 movies from the TMDB API
 2. Enriches each with genres, keywords, runtime, tagline
-3. Cleans and normalizes fields → writes `data/movies_clean.csv`
+3. Cleans and normalizes fields → writes `data/movies_clean_kestra.csv`
 
 The flow runs on a weekly schedule (Sunday 3am) and can be triggered manually.
 
@@ -185,6 +185,15 @@ Override model or prompt per-request:
 ---
 
 ## Evaluation notebooks
+
+The evaluation pipeline follows this flow:
+```
+03 (generate questions) → 02 (measure retrieval + tune boosts) → 04 (LLM-as-judge)
+```
+
+1. **Notebook 03** uses an LLM to generate 3 realistic user questions per movie → ground truth CSV
+2. **Notebook 02** uses that ground truth to measure Hit Rate + MRR across search methods and tune boost weights
+3. **Notebook 04** runs the full RAG pipeline on a sample and scores answer quality with an LLM judge
 
 | Notebook | What it does |
 |---|---|
