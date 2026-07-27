@@ -287,6 +287,16 @@ make help  # show all targets
 
 ---
 
+## Cleanup
+
+```bash
+make down
+```
+
+Stops all Docker services (app, Postgres, Grafana, Kestra). Data in named volumes is preserved — run `docker volume rm llm-capstone_postgres_data` to wipe the local database.
+
+---
+
 ## API
 
 The Flask API runs locally at `http://localhost:5000` when `make up` is active.
