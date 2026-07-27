@@ -189,7 +189,7 @@ make streamlit
 
 Run the UI on Streamlit Community Cloud, store data in Neon Postgres, and monitor via Grafana Cloud — all free tiers.
 
-> ⚠️ **Disclaimer:** The live demo links below are running on free trial tiers and are intended for demonstration purposes only. They may stop working after approximately 14 days or when free tier limits are reached. This is a capstone project and is not maintained as a production service.
+> ⚠️ **Disclaimer:** The live demo links below are running on free trial tiers (set up 2026-07-27) and are intended for demonstration purposes only. They may stop working after approximately 14 days or when free tier limits are reached. This is a capstone project and is not maintained as a production service.
 
 ### Neon Postgres (free serverless Postgres)
 
