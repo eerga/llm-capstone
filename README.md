@@ -82,13 +82,13 @@ Or click **Execute** on the `movie_data_ingestion` flow in the Kestra UI.
 
 ## Quickstart (fresh clone)
 
-### 1. Prerequisites
+### Prerequisites
 
 - Python 3.12+
 - [uv](https://docs.astral.sh/uv/getting-started/installation/)
-- Docker + Docker Compose
+- Docker + Docker Compose (local path only)
 
-### 2. Clone and install
+### Clone and install
 
 ```bash
 git clone https://github.com/eerga/llm-capstone.git
@@ -96,70 +96,103 @@ cd llm-capstone
 uv sync
 ```
 
-### 3. Configure environment
+### Configure environment
 
 ```bash
 cp .envrc_template .envrc
 ```
 
-Edit `.envrc` and fill in:
-
+Fill in `.envrc`:
 ```
 OPENAI_API_KEY=your_openai_key
 TMDB_API_KEY=your_tmdb_key
-DATABASE_URL=postgresql://user:password@host/dbname?sslmode=require
 ```
 
-**PostgreSQL options:**
-- **Local** (default): leave `DATABASE_URL` unset — uses the Docker Compose Postgres on `localhost:5432`
-- **Neon** (free cloud Postgres): sign up at [neon.tech](https://neon.tech), create a project, copy the connection string into `DATABASE_URL`
+---
 
-Then load it:
+## Path A — Local (Streamlit + Docker Postgres + Local Grafana)
+
+Everything runs on your machine via Docker Compose.
+
+### 1. Fetch and prepare data
 
 ```bash
-source .envrc
-```
-
-### 4. Fetch and prepare movie data
-
-**Option A — manual:**
-```bash
-# Fetch ~2000 movies from TMDB API → data/movies_raw.json
 python data/fetch_movies.py
 ```
-Then run `notebooks/01-data-prep.ipynb` to clean the data and write `data/movies_clean.csv`.
+Then run `notebooks/01-data-prep.ipynb` → writes `data/movies_clean.csv`.
 
-**Option B — automated (Kestra):**
-```bash
-make kestra-up
-make kestra-ingest   # wait ~7 min for completion
-make kestra-copy     # downloads movies_clean_kestra.csv to data/
-```
-
-### 5. Start services
+### 2. Start all services
 
 ```bash
 make up
 ```
 
-This builds and starts PostgreSQL, the Flask app, and Grafana in the background.
-The app initializes the DB schema automatically on first boot.
+Starts PostgreSQL, Flask API, and Grafana in the background. DB schema initialized automatically.
 
-### 6. Bootstrap Grafana
+### 3. Bootstrap Grafana
 
 ```bash
 make grafana
 ```
 
-Registers the PostgreSQL datasource and posts the dashboard. Only needed once.
+Open [http://localhost:3000](http://localhost:3000) — login: `admin` / `admin`.
 
-### 7. Run the UI
+### 4. Run Streamlit
 
 ```bash
 make streamlit
 ```
 
-Open [http://localhost:8501](http://localhost:8501) in your browser.
+Open [http://localhost:8501](http://localhost:8501).
+
+---
+
+## Path B — Cloud (Streamlit Cloud + Neon Postgres + Grafana Cloud)
+
+No Docker needed — everything runs in the cloud for free.
+
+### 1. Set up Neon Postgres
+
+1. Sign up at [neon.tech](https://neon.tech) → create a project → copy the connection string
+2. Add to `.envrc`:
+   ```
+   DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
+   ```
+3. Initialize the schema:
+   ```bash
+   python -m movie_assistant.db_prep
+   ```
+
+### 2. Run Streamlit locally pointing to Neon
+
+```bash
+make streamlit
+```
+
+The app connects to Neon automatically via `DATABASE_URL`.
+
+### 3. Set up Grafana Cloud
+
+1. Sign up at [grafana.com](https://grafana.com) → free tier
+2. Go to **Connections → Data Sources → Add → PostgreSQL**:
+   - Host: `<your-neon-host>:5432`
+   - Database: `neondb`
+   - User: `neondb_owner`
+   - Password: your Neon password
+   - SSL Mode: `require`
+   - Name: `MovieAssistantDB`
+3. **Save & Test** → green ✓
+4. **Dashboards → Import → Upload JSON** → select `grafana/dashboard.json`
+
+Live dashboard: [wisemullet536.grafana.net/d/movie-assistant](https://wisemullet536.grafana.net/d/movie-assistant/movie-assistant?orgId=1&from=now-6h&to=now&timezone=browser&refresh=30s)
+
+### 4. Deploy to Streamlit Community Cloud
+
+1. Push repo to GitHub
+2. Go to [share.streamlit.io](https://share.streamlit.io) → New app → select `eerga/llm-capstone` → `streamlit_app.py`
+3. Deploy
+
+> **Note:** The Streamlit Cloud deployment requires a public Flask backend URL to serve answers. For local testing, use Path A instead.
 
 ---
 
