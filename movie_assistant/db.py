@@ -3,19 +3,30 @@ PostgreSQL helpers — all reads and writes for conversations and feedback.
 """
 
 import os
-import uuid
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 import psycopg2
 from psycopg2.extras import DictCursor
 
-DSN = {
-    "host": os.getenv("POSTGRES_HOST", "localhost"),
-    "port": int(os.getenv("POSTGRES_PORT", "5432")),
-    "dbname": os.getenv("POSTGRES_DB", "movie_assistant"),
-    "user": os.getenv("POSTGRES_USER", "postgres"),
-    "password": os.getenv("POSTGRES_PASSWORD", ""),
-}
+_DATABASE_URL = os.getenv("DATABASE_URL")
+if _DATABASE_URL:
+    _p = urlparse(_DATABASE_URL)
+    DSN = {
+        "host": _p.hostname,
+        "port": _p.port or 5432,
+        "dbname": _p.path.lstrip("/"),
+        "user": _p.username,
+        "password": _p.password,
+    }
+else:
+    DSN = {
+        "host": os.getenv("POSTGRES_HOST", "localhost"),
+        "port": int(os.getenv("POSTGRES_PORT", "5432")),
+        "dbname": os.getenv("POSTGRES_DB", "movie_assistant"),
+        "user": os.getenv("POSTGRES_USER", "postgres"),
+        "password": os.getenv("POSTGRES_PASSWORD", ""),
+    }
 
 
 def _conn():

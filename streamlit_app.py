@@ -1,10 +1,11 @@
+import os
 import requests
 import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv(".envrc")
 
-API_URL = "http://localhost:5000"
+API_URL = os.getenv("API_URL", "http://localhost:5000")
 
 st.title("Movie Assistant")
 st.caption("Ask me anything about movies — recommendations, genres, directors, vibes.")

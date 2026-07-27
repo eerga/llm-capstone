@@ -6,6 +6,13 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 > **Note:** This is a capstone project for the [LLM Zoomcamp 2026](https://github.com/DataTalksClub/llm-zoomcamp) course. It is not for profit and is open for testing.
 
+## Live Demo
+
+| Service | URL |
+|---|---|
+| Streamlit UI | _coming soon_ |
+| API | _coming soon_ |
+
 ---
 
 ## Screenshots
