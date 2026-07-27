@@ -1,4 +1,4 @@
-.PHONY: up down build streamlit grafana test kestra-up kestra-ingest restart help
+.PHONY: up down build streamlit streamlit-cloud grafana test kestra-up kestra-ingest restart help
 
 help:
 	@echo ""
@@ -9,7 +9,8 @@ help:
 	@echo "  make build          Rebuild Docker images without starting"
 	@echo "  make restart        down + up + grafana"
 	@echo ""
-	@echo "  make streamlit      Run the Streamlit UI (http://localhost:8501)"
+	@echo "  make streamlit      Run Streamlit UI locally (http://localhost:8501)"
+	@echo "  make streamlit-cloud Run Streamlit UI with Neon Postgres (http://localhost:8501)"
 	@echo "  make grafana        Bootstrap Grafana datasource + dashboard (http://localhost:3000)"
 	@echo "  make test           Send a test question to the Flask API"
 	@echo ""
@@ -28,6 +29,12 @@ build:
 	docker compose build
 
 streamlit:
+	@echo "Starting Streamlit UI at http://localhost:8501 — press Ctrl+C to stop"
+	uv run streamlit run streamlit_app.py
+
+streamlit-cloud:
+	@echo "Starting Streamlit UI with Neon Postgres at http://localhost:8501 — press Ctrl+C to stop"
+	export $$(grep -v '^#' .envrc | sed 's/#.*//' | grep '=' | xargs) && \
 	uv run streamlit run streamlit_app.py
 
 grafana:
