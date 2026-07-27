@@ -57,8 +57,8 @@ When you type a question, the system:
 | API | Flask | Optional — for programmatic/curl access to the same pipeline |
 | Storage | PostgreSQL 16 (local) or [Neon](https://neon.tech) (cloud) | Free serverless Postgres |
 | Monitoring | Grafana (local Docker or [Grafana Cloud](https://grafana.com) free tier) | 7-panel dashboard |
-| Ingestion pipeline | [Kestra](https://kestra.io) | Automated weekly pipeline, schedulable |
-| Data fetch | `data/fetch_movies.py` | Paginates TMDB API, writes `movies_raw.json` |
+| Ingestion | **Option A — Python script:** `data/fetch_movies.py` → `notebooks/01-data-prep.ipynb` → `data/movies_clean.csv` | Manual, run once |
+| Ingestion | **Option B — Kestra:** automated weekly flow → `data/movies_clean_kestra.csv` (see [Ingestion Pipeline](#ingestion-pipeline-kestra)) | Scheduled, no manual steps |
 
 ---
 
