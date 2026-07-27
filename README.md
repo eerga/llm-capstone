@@ -189,10 +189,19 @@ Live dashboard: [wisemullet536.grafana.net/d/movie-assistant](https://wisemullet
 ### 4. Deploy to Streamlit Community Cloud
 
 1. Push repo to GitHub
-2. Go to [share.streamlit.io](https://share.streamlit.io) → New app → select `eerga/llm-capstone` → `streamlit_app.py`
-3. Deploy
+2. Go to [share.streamlit.io](https://share.streamlit.io) → **New app** → select `eerga/llm-capstone` → main file: `streamlit_app.py`
+3. Under **Advanced settings**:
+   - Python version: `3.12`
+   - Secrets (TOML format):
+     ```toml
+     OPENAI_API_KEY = "your_openai_key"
+     DATABASE_URL = "postgresql://user:password@host/dbname?sslmode=require"
+     ```
+4. Click **Deploy**
 
-> **Note:** The Streamlit Cloud deployment requires a public Flask backend URL to serve answers. For local testing, use Path A instead.
+The app calls the RAG pipeline directly and writes conversations to Neon Postgres. No separate Flask backend needed.
+
+Live demo: [movie-recommend67.streamlit.app](https://movie-recommend67.streamlit.app)
 
 ---
 
