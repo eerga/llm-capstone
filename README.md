@@ -16,9 +16,7 @@ _(add YouTube video link here)_
 
 ## The Data
 
-Movie data is fetched directly from the [TMDB API](https://developer.themoviedb.org/docs/getting-started) — no manual downloads needed.
-
-**~2000 movies** are retrieved with the following fields:
+Movie data is fetched directly from the [TMDB API](https://developer.themoviedb.org/docs/getting-started) — no manual downloads needed. Register for a free API key to run the ingestion pipeline yourself.
 
 | Field | Description |
 |---|---|
@@ -31,21 +29,18 @@ Movie data is fetched directly from the [TMDB API](https://developer.themoviedb.
 | `release_year` | Year of release |
 | `runtime` | Length in minutes |
 
-Register for a free TMDB API key at [developer.themoviedb.org](https://developer.themoviedb.org/docs/getting-started).
-
----
-
-## How It Works
+**~2000 movies** are retrieved with the following fields:
 
 When you type a question, the system:
 
 1. **Searches** the movie database using a hybrid of two methods:
    - **minsearch (TF-IDF)** — exact keyword matching, fast and precise for titles and genres
-   - **FAISS (vector search)** — semantic similarity using sentence embeddings, finds movies that *feel* similar even without exact word matches
+   - **FAISS (Facebook AI Similarity Search)** — semantic similarity using sentence embeddings, finds movies that *feel* similar even without exact word matches
    - **Reciprocal Rank Fusion (RRF)** — combines both rankings so you get the best of exact and semantic search
 2. **Builds context** from the top results (title, genres, overview, rating)
 3. **Asks an LLM** to synthesise a grounded, conversational recommendation using only the retrieved movies
 4. **Scores the answer** with an LLM judge (RELEVANT / PARTLY_RELEVANT / NON_RELEVANT) for monitoring
+5. **Collects your feedback** — after each answer you can give a 👍 or 👎 to help track recommendation quality
 
 ---
 
@@ -61,8 +56,9 @@ When you type a question, the system:
 | UI | Streamlit | Direct RAG calls, no Flask intermediary needed |
 | API | Flask | Available for local/programmatic access |
 | Storage | PostgreSQL 16 (local) or [Neon](https://neon.tech) (cloud) | Free serverless Postgres |
-| Monitoring | Grafana (local Docker or Grafana Cloud free tier) | 7-panel dashboard |
-| Ingestion pipeline | Kestra | Automated weekly pipeline, schedulable |
+| Monitoring | Grafana (local Docker or [Grafana Cloud](https://grafana.com) free tier) | 7-panel dashboard |
+| Ingestion pipeline | [Kestra](https://kestra.io) | Automated weekly pipeline, schedulable |
+| Data fetch | `data/fetch_movies.py` | Paginates TMDB API, writes `movies_raw.json` |
 
 ---
 
