@@ -53,8 +53,8 @@ When you type a question, the system:
 | LLMs | `gpt-5.6-luna`, `gpt-5.4-mini` | 2 models compared via LLM-as-judge |
 | Prompt variants | A (Claude-authored), B (ChatGPT-authored) | A/B tested — B wins by ~5% RELEVANT |
 | Pipeline typing | pydantic-ai | Typed `RAGResponse` model |
-| UI | Streamlit | Direct RAG calls, no Flask intermediary needed |
-| API | Flask | Available for local/programmatic access |
+| UI | Streamlit | Calls RAG pipeline directly; no Flask needed for the UI |
+| API | Flask | Optional — for programmatic/curl access to the same pipeline |
 | Storage | PostgreSQL 16 (local) or [Neon](https://neon.tech) (cloud) | Free serverless Postgres |
 | Monitoring | Grafana (local Docker or [Grafana Cloud](https://grafana.com) free tier) | 7-panel dashboard |
 | Ingestion pipeline | [Kestra](https://kestra.io) | Automated weekly pipeline, schedulable |
