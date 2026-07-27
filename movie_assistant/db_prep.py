@@ -3,12 +3,11 @@ One-shot schema initializer. Run once before starting the app:
     python -m movie_assistant.db_prep
 """
 
-import psycopg2
-from movie_assistant.db import DSN
+from movie_assistant.db import _conn
 
 
 def init_db():
-    with psycopg2.connect(**DSN) as conn, conn.cursor() as cur:
+    with _conn() as conn, conn.cursor() as cur:
         cur.execute("""
             CREATE TABLE IF NOT EXISTS conversations (
                 id                TEXT PRIMARY KEY,
