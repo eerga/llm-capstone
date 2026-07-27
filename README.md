@@ -10,8 +10,8 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 | Service | URL |
 |---|---|
+| Grafana Dashboard | [wisemullet536.grafana.net](https://wisemullet536.grafana.net/d/movie-assistant/movie-assistant?orgId=1&from=now-6h&to=now&timezone=browser&refresh=30s) |
 | Streamlit UI | _coming soon_ |
-| API | _coming soon_ |
 
 ---
 
@@ -22,7 +22,12 @@ Just type a cave-man version of what you want — "good movie", "sad but beautif
 
 ![Streamlit UI](img/streamlit.png)
 
-### Grafana Dashboard
+### Grafana Cloud Dashboard
+Live monitoring connected to Neon Postgres — accessible from anywhere.
+
+![Grafana Cloud](img/grafana_cloud.png)
+
+### Grafana Dashboard (local)
 Real-time monitoring of conversations, token usage, cost, relevance distribution, and user feedback.
 
 ![Grafana Dashboard](img/Grafana_dashboard.png)
@@ -199,11 +204,32 @@ ORDER BY f.timestamp DESC LIMIT 10;
 
 ## Grafana dashboard
 
+Two options:
+
+### Option A — Local (Docker)
+
+```bash
+make up && make grafana
+```
+
 Open [http://localhost:3000](http://localhost:3000) — login: `admin` / `admin`.
+
+### Option B — Grafana Cloud (free tier)
+
+1. Sign up at [grafana.com](https://grafana.com) → free tier
+2. Go to **Connections → Data Sources → Add → PostgreSQL** and fill in your Neon connection:
+   - Host: `<your-neon-host>:5432`
+   - Database: `neondb`
+   - User: `neondb_owner`
+   - Password: your Neon password
+   - SSL Mode: `require`
+   - Name: `MovieAssistantDB` (must match exactly)
+3. Click **Save & Test** — should show green
+4. Go to **Dashboards → Import → Upload JSON** → select `grafana/dashboard.json`
 
 Panels: last 5 conversations, response time, token usage, cost over time, model usage, relevance distribution, user feedback.
 
-**Manual datasource setup** (if `make grafana` doesn't auto-configure):
+**Manual datasource setup for local Grafana** (if `make grafana` doesn't auto-configure):
 
 1. Go to Configuration → Data Sources → Add data source → PostgreSQL
 2. Host: `postgres:5432`
