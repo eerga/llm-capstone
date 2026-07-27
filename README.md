@@ -8,13 +8,21 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 ---
 
+## Screenshots
+
 ### Streamlit UI
+Just type a cave-man version of what you want — "good movie", "sad but beautiful", "explosions" — and get 1, 2, or even 3 recommendations back.
+
 ![Streamlit UI](img/streamlit.png)
 
 ### Grafana Dashboard
+Real-time monitoring of conversations, token usage, cost, relevance distribution, and user feedback.
+
 ![Grafana Dashboard](img/Grafana_dashboard.png)
 
 ### Kestra Ingestion Pipeline
+Automated weekly pipeline that fetches and cleans movie data from the TMDB API.
+
 ![Kestra Ingestion](img/kestra_log.png)
 
 ---
@@ -71,7 +79,7 @@ Or click **Execute** on the `movie_data_ingestion` flow in the Kestra UI.
 ### 2. Clone and install
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/eerga/llm-capstone.git
 cd llm-capstone
 uv sync
 ```
@@ -97,12 +105,19 @@ source .envrc
 
 ### 4. Fetch and prepare movie data
 
+**Option A — manual:**
 ```bash
 # Fetch ~2000 movies from TMDB API → data/movies_raw.json
 python data/fetch_movies.py
 ```
-
 Then run `notebooks/01-data-prep.ipynb` to clean the data and write `data/movies_clean.csv`.
+
+**Option B — automated (Kestra):**
+```bash
+make kestra-up
+make kestra-ingest   # wait ~7 min for completion
+make kestra-copy     # downloads movies_clean_kestra.csv to data/
+```
 
 ### 5. Start services
 
@@ -142,6 +157,7 @@ Open [http://localhost:8501](http://localhost:8501) in your browser.
 | `make test` | Send a test question to the Flask API |
 | `make kestra-up` | Start only Kestra + its Postgres (no app rebuild) |
 | `make kestra-ingest` | Trigger the movie ingestion flow via API |
+| `make kestra-copy` | Download Kestra-generated CSV to `data/` |
 | `make restart` | `down` + `up` + `grafana` |
 
 ---
