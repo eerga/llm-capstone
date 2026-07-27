@@ -19,7 +19,31 @@ Ask it natural language questions like _"mind-bending sci-fi like Inception"_ or
 | API | Flask |
 | Storage | PostgreSQL 16 |
 | Monitoring | Grafana |
-| Infra | Docker Compose + Makefile |
+| Ingestion pipeline | Kestra (automated, scheduled weekly) |
+
+---
+
+## Ingestion pipeline (Kestra)
+
+Movie data is fetched and cleaned automatically via a [Kestra](https://kestra.io) workflow (`kestra/flows/movie_ingestion.yaml`). The flow:
+
+1. Fetches ~2000 movies from the TMDB API
+2. Enriches each with genres, keywords, runtime, tagline
+3. Cleans and normalizes fields → writes `data/movies_clean.csv`
+
+The flow runs on a weekly schedule (Sunday 3am) and can be triggered manually.
+
+**To start Kestra:**
+```bash
+make kestra-up
+```
+Open [http://localhost:8080](http://localhost:8080) — login: `admin@kestra.io` / `Admin1234!`
+
+**To trigger the ingestion flow manually:**
+```bash
+make kestra-ingest
+```
+Or click **Execute** on the `movie_data_ingestion` flow in the Kestra UI.
 
 ---
 
@@ -103,6 +127,8 @@ Open [http://localhost:8501](http://localhost:8501) in your browser.
 | `make streamlit` | Run the Streamlit UI |
 | `make grafana` | Bootstrap Grafana datasource + dashboard |
 | `make test` | Send a test question to the Flask API |
+| `make kestra-up` | Start only Kestra + its Postgres (no app rebuild) |
+| `make kestra-ingest` | Trigger the movie ingestion flow via API |
 | `make restart` | `down` + `up` + `grafana` |
 
 ---

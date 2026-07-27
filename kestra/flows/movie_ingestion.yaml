@@ -1,0 +1,133 @@
+id: movie_data_ingestion
+namespace: movie_assistant
+
+description: |
+  Fetches movie data from the TMDB API and prepares it for the Movie Assistant RAG pipeline.
+
+  Steps:
+  1. Fetch ~2000 movies from TMDB /discover/movie endpoint
+  2. Enrich each with genres, keywords, runtime, tagline
+  3. Clean and normalize fields
+  4. Write movies_clean_kestra.csv to Kestra working directory (available in Outputs tab)
+
+labels:
+  project: movie-assistant
+  stage: ingestion
+
+triggers:
+  - id: schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 3 * * 0"  # every Sunday at 3am — refresh movie data weekly
+
+tasks:
+  - id: fetch_movies
+    type: io.kestra.plugin.scripts.python.Script
+    description: Fetch movies from TMDB API
+    docker:
+      image: python:3.12-slim
+    env:
+      TMDB_API_KEY: "{{ secret('TMDB_API_KEY') }}"
+    beforeCommands:
+      - pip install requests tqdm --quiet
+    outputFiles:
+      - movies_raw_kestra.json
+    script: |
+      import json, os, time, requests
+      from tqdm import tqdm
+
+      BASE_URL = "https://api.themoviedb.org/3"
+      MAX_PAGES = 100
+      api_key = os.environ["TMDB_API_KEY"]
+
+      def get(endpoint, params):
+          params["api_key"] = api_key
+          resp = requests.get(f"{BASE_URL}{endpoint}", params=params, timeout=10)
+          resp.raise_for_status()
+          return resp.json()
+
+      movies = []
+      print(f"Fetching {MAX_PAGES} pages...")
+      for page in range(1, MAX_PAGES + 1):
+          results = get("/discover/movie", {"sort_by": "vote_count.desc", "vote_count.gte": 100, "page": page})
+          movies.extend(results.get("results", []))
+          time.sleep(0.05)
+
+      print(f"Enriching {len(movies)} movies...")
+      enriched, seen = [], set()
+      for m in movies:
+          if m["id"] in seen:
+              continue
+          seen.add(m["id"])
+          try:
+              d = get(f"/movie/{m['id']}", {"append_to_response": "keywords"})
+              enriched.append({
+                  "id": d.get("id"),
+                  "title": d.get("title", ""),
+                  "overview": d.get("overview", ""),
+                  "tagline": d.get("tagline", ""),
+                  "genres": [g["name"] for g in d.get("genres", [])],
+                  "keywords": [k["name"] for k in d.get("keywords", {}).get("keywords", [])],
+                  "vote_average": d.get("vote_average", 0),
+                  "vote_count": d.get("vote_count", 0),
+                  "release_date": d.get("release_date", ""),
+                  "runtime": d.get("runtime", 0),
+              })
+              time.sleep(0.05)
+          except Exception as e:
+              print(f"  skipping {m['id']}: {e}")
+
+      with open("movies_raw_kestra.json", "w") as f:
+          json.dump(enriched, f)
+      print(f"Wrote {len(enriched)} movies to movies_raw_kestra.json")
+
+  - id: clean_movies
+    type: io.kestra.plugin.scripts.python.Script
+    description: Clean and normalize movie data
+    docker:
+      image: python:3.12-slim
+    beforeCommands:
+      - pip install pandas --quiet
+    inputFiles:
+      movies_raw_kestra.json: "{{ outputs.fetch_movies.outputFiles['movies_raw_kestra.json'] }}"
+    outputFiles:
+      - movies_clean_kestra.csv
+    script: |
+      import json, pandas as pd
+
+      with open("movies_raw_kestra.json") as f:
+          raw = json.load(f)
+
+      df = pd.DataFrame(raw)
+      df["genres"] = df["genres"].apply(lambda x: ", ".join(x) if isinstance(x, list) else "")
+      df["keywords"] = df["keywords"].apply(lambda x: ", ".join(x) if isinstance(x, list) else "")
+      df["release_year"] = pd.to_datetime(df["release_date"], errors="coerce").dt.year.fillna(0).astype(int)
+
+      def vote_bucket(v):
+          if v >= 7.5: return "high"
+          if v >= 6.0: return "medium"
+          return "low"
+
+      df["vote_bucket"] = df["vote_average"].apply(vote_bucket)
+      df = df[df["overview"].str.strip().str.len() > 20]
+
+      cols = ["id", "title", "overview", "tagline", "genres", "keywords",
+              "vote_average", "vote_count", "release_year", "runtime", "vote_bucket"]
+      df = df[cols].reset_index(drop=True)
+      df.to_csv("movies_clean_kestra.csv", index=False)
+      print(f"Saved {len(df)} movies to movies_clean_kestra.csv")
+
+  - id: save_to_host
+    type: io.kestra.plugin.scripts.shell.Commands
+    description: Copy cleaned CSV to the host data directory via Kestra working dir
+    inputFiles:
+      movies_clean_kestra.csv: "{{ outputs.clean_movies.outputFiles['movies_clean_kestra.csv'] }}"
+    commands:
+      - cp movies_clean_kestra.csv /tmp/kestra-wd/movies_clean_kestra.csv
+      - echo "Copied to /tmp/kestra-wd/movies_clean_kestra.csv"
+
+  - id: log_summary
+    type: io.kestra.plugin.core.log.Log
+    message: |
+      ✅ Movie data ingestion complete!
+      Download movies_clean_kestra.csv from the Outputs tab above,
+      or find it at /tmp/kestra-wd/movies_clean_kestra.csv on the host.

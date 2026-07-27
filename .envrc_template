@@ -4,8 +4,7 @@ GEMINI_API_KEY=your_gemini_key_here
 TMDB_API_KEY=your_tmdb_key_here
 
 # Model configuration
-LLM_MODEL=gpt-5.6-luna         # gpt-5.6-luna | gpt-5.4-mini | gemini-2.0-flash
-PROMPT_VERSION=a                # a | b
+LLM_MODEL=gpt-5.6-luna         # gpt-5.6-luna | gpt-5.4-mini | gemini-2.0-flashPROMPT_VERSION=a                # a | b
 SEARCH_METHOD=rrf               # rrf | minsearch | faiss
 EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 
