@@ -6,6 +6,19 @@ Ask it natural language questions like _"mind-bending sci-fi like Inception"_ or
 
 ---
 
+## Screenshots
+
+### Streamlit UI
+![Streamlit UI](img/streamlit.png)
+
+### Grafana Dashboard
+![Grafana Dashboard](img/Grafana_dashboard.png)
+
+### Kestra Ingestion Pipeline
+![Kestra Ingestion](img/kestra_log.png)
+
+---
+
 ## Architecture
 
 | Layer | Technology |
