@@ -1,6 +1,9 @@
 """
 Loads movies_clean.csv and builds both the minsearch (TF-IDF) and FAISS
 (vector) indexes. Indexes are built once at import and reused across requests.
+
+The FAISS index is saved to data/faiss_index.bin after first build and loaded
+from disk on subsequent startups — avoids re-encoding 2000 movies every boot.
 """
 
 import os
@@ -13,6 +16,7 @@ from sentence_transformers import SentenceTransformer
 from movie_assistant.minsearch import Index
 
 DATA_PATH = Path(__file__).parent.parent / "data" / "movies_clean.csv"
+FAISS_INDEX_PATH = Path(__file__).parent.parent / "data" / "faiss_index.bin"
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
 
 TEXT_FIELDS = ["title", "overview", "genres", "keywords", "tagline"]
@@ -23,11 +27,10 @@ _records: list[dict] = []
 _minsearch_index: Index | None = None
 _faiss_index: faiss.IndexFlatIP | None = None
 _embedder: SentenceTransformer | None = None
-_faiss_ids: list[str] = []  # parallel list of movie ids for FAISS results
 
 
 def _load():
-    global _records, _minsearch_index, _faiss_index, _embedder, _faiss_ids
+    global _records, _minsearch_index, _faiss_index, _embedder
 
     df = pd.read_csv(DATA_PATH)
     _records = df.to_dict("records")
@@ -36,15 +39,22 @@ def _load():
     _minsearch_index.fit(_records)
 
     _embedder = SentenceTransformer(EMBEDDING_MODEL)
-    texts = [
-        f"{r.get('title','')} {r.get('genres','')} {r.get('keywords','')} {r.get('overview','')}"
-        for r in _records
-    ]
-    embeddings = _embedder.encode(texts, show_progress_bar=True, normalize_embeddings=True)
-    dim = embeddings.shape[1]
-    _faiss_index = faiss.IndexFlatIP(dim)
-    _faiss_index.add(embeddings.astype(np.float32))
-    _faiss_ids = [str(r["id"]) for r in _records]
+
+    if FAISS_INDEX_PATH.exists():
+        _faiss_index = faiss.read_index(str(FAISS_INDEX_PATH))
+        print(f"Loaded FAISS index from {FAISS_INDEX_PATH}")
+    else:
+        print("Building FAISS index from scratch...")
+        texts = [
+            f"{r.get('title','')} {r.get('genres','')} {r.get('keywords','')} {r.get('overview','')}"
+            for r in _records
+        ]
+        embeddings = _embedder.encode(texts, show_progress_bar=True, normalize_embeddings=True)
+        dim = embeddings.shape[1]
+        _faiss_index = faiss.IndexFlatIP(dim)
+        _faiss_index.add(embeddings.astype(np.float32))
+        faiss.write_index(_faiss_index, str(FAISS_INDEX_PATH))
+        print(f"Saved FAISS index to {FAISS_INDEX_PATH}")
 
 
 def search_minsearch(query: str, filter_dict: dict | None = None, num_results: int = 10, boost: dict | None = None) -> list[dict]:
