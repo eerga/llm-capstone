@@ -161,9 +161,16 @@ cp .envrc_template .envrc
 # Fill in OPENAI_API_KEY and TMDB_API_KEY
 source .envrc
 
-# 3. Fetch and prepare data
-python data/fetch_movies.py
-# Then run notebooks/01-data-prep.ipynb → writes data/movies_clean.csv
+# 3. Fetch and prepare data (optional — only needed to regenerate movies_clean.csv)
+# python data/fetch_movies.py                  # fetch ~2000 movies from TMDB API
+# python prep_scripts/01_data_prep.py          # clean raw data → movies_clean.csv
+#
+# movies_clean.csv is already included in the repo — skip these if you just want to run the app
+#
+# Optional — generate ground truth and run evaluations (only needed to reproduce eval results):
+# python prep_scripts/03_generate_ground_truth.py  # generate 6000 Q&A pairs per model (~$2, takes ~30 min)
+# python prep_scripts/02_rag_test.py           # retrieval eval + boost tuning
+# python prep_scripts/04_rag_eval.py           # LLM-as-judge eval (~$1, takes ~10 min)
 
 # 4. Start all services (Postgres + Flask API + Grafana)
 make up
