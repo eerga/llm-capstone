@@ -2,24 +2,43 @@
 Bootstrap Grafana: create API key, register PostgreSQL datasource, POST dashboard.
 Run once after `docker compose up`:
     python grafana/init.py
+
+If DATABASE_URL is set, registers Neon as the datasource (SSL required).
+Otherwise falls back to local Docker Postgres.
 """
 
 import json
 import os
 import time
 from pathlib import Path
+from urllib.parse import urlparse
 
 import requests
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).parent.parent / ".envrc")
 
 GRAFANA_URL = os.getenv("GRAFANA_URL", "http://localhost:3000")
 GRAFANA_USER = os.getenv("GRAFANA_USER", "admin")
 GRAFANA_PASSWORD = os.getenv("GRAFANA_PASSWORD", "admin")
 
-POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
-POSTGRES_DB = os.getenv("POSTGRES_DB", "movie_assistant")
-POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "postgres")
+_DATABASE_URL = os.getenv("DATABASE_URL")
+
+if _DATABASE_URL:
+    _p = urlparse(_DATABASE_URL)
+    POSTGRES_HOST = f"{_p.hostname}:{_p.port or 5432}"
+    POSTGRES_DB = _p.path.lstrip("/")
+    POSTGRES_USER = _p.username
+    POSTGRES_PASSWORD = _p.password
+    POSTGRES_SSL = "require"
+    print(f"Using Neon Postgres: {_p.hostname}")
+else:
+    POSTGRES_HOST = f"{os.getenv('POSTGRES_HOST', 'postgres')}:{os.getenv('POSTGRES_PORT', '5432')}"
+    POSTGRES_DB = os.getenv("POSTGRES_DB", "movie_assistant")
+    POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "postgres")
+    POSTGRES_SSL = "disable"
+    print("Using local Docker Postgres")
 
 session = requests.Session()
 session.auth = (GRAFANA_USER, GRAFANA_PASSWORD)
@@ -44,11 +63,11 @@ def create_datasource():
     payload = {
         "name": "MovieAssistantDB",
         "type": "postgres",
-        "url": f"{POSTGRES_HOST}:{POSTGRES_PORT}",
+        "url": POSTGRES_HOST,
         "database": POSTGRES_DB,
         "user": POSTGRES_USER,
         "secureJsonData": {"password": POSTGRES_PASSWORD},
-        "jsonData": {"sslmode": "disable", "postgresVersion": 1500},
+        "jsonData": {"sslmode": POSTGRES_SSL, "postgresVersion": 1500},
         "access": "proxy",
         "isDefault": True,
     }

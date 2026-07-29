@@ -263,6 +263,8 @@ make streamlit-cloud
 | Grafana Dashboard | [wisemullet536.grafana.net](https://wisemullet536.grafana.net/d/movie-assistant/movie-assistant?orgId=1&from=now-6h&to=now&timezone=browser&refresh=30s) | May expire after ~14 days |
 | Database | [Neon Postgres](https://neon.tech) — `ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech` | Free tier |
 
+> **Want to see the database?** Feel free to email [erikaergart@gmail.com](mailto:erikaergart@gmail.com) and I'll invite you to have access. Alternatively, I can send you a screenshot of the request and answer stored in the database if you're curious.
+
 ---
 
 ## Makefile Targets
