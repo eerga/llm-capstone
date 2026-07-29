@@ -28,3 +28,9 @@ dev-dependencies = [
     "jupyter>=1.0",
     "ipykernel>=6.0",
 ]
+
+[tool.uv.environment-markers]
+required-environments = [
+    "sys_platform == 'linux'",
+    "sys_platform == 'darwin'",
+]

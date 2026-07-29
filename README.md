@@ -154,7 +154,6 @@ Everything runs on your machine via Docker Compose.
 ```bash
 # 1. Clone and install
 git clone https://github.com/eerga/llm-capstone.git
-cd llm-capstone
 uv sync
 
 # 2. Configure environment
