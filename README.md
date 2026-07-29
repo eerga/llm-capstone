@@ -171,10 +171,9 @@ source .envrc
 
 # Optional — generate ground truth and run evaluations (only needed to reproduce eval results)
 # A separate walkthrough video for these steps will be recorded and linked here.
-# python prep_scripts/03_generate_ground_truth.py
-# python prep_scripts/03_generate_ground_truth.py  # generate 6000 Q&A pairs per model (~$2, takes ~30 min)
-# python prep_scripts/02_rag_test.py           # retrieval eval + boost tuning
-# python prep_scripts/04_rag_eval.py           # LLM-as-judge eval (~$1, takes ~10 min)
+# python prep_scripts/03_generate_ground_truth.py  # 2. generate 6000 Q&A pairs per model (~$2, ~30 min)
+# python prep_scripts/02_rag_test.py               # 3. retrieval eval + boost tuning (needs step 2)
+# python prep_scripts/04_rag_eval.py               # 4. LLM-as-judge eval (~$1, ~10 min, needs step 2)
 
 # 4. Start all services (Postgres + Flask API + Grafana)
 make up
