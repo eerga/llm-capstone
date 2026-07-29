@@ -30,7 +30,15 @@ required-environments = [
     "sys_platform == 'darwin' and platform_machine == 'arm64'",
 ]
 
-[dependency-groups]
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", marker = "platform_machine == 'x86_64' and sys_platform == 'darwin'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 dev = [
     "jupyter>=1.0",
     "ipykernel>=6.0",
