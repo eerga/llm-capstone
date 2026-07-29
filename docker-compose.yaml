@@ -73,7 +73,7 @@ services:
       - /tmp/kestra-wd:/tmp/kestra-wd
       - ./data:/data
     environment:
-      SECRET_TMDB_API_KEY: ${SECRET_TMDB_API_KEY}
+      SECRET_TMDB_API_KEY: ${SECRET_TMDB_API_KEY:-placeholder}
       KESTRA_CONFIGURATION: |
         datasources:
           postgres:
