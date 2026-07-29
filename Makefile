@@ -1,4 +1,4 @@
-.PHONY: up down build streamlit streamlit-cloud grafana test kestra-up kestra-ingest restart help
+.PHONY: up down build streamlit streamlit-cloud grafana test kestra-up kestra-ingest kestra-copy restart help
 
 help:
 	@echo ""
