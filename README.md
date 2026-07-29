@@ -170,6 +170,11 @@ make up
 
 # 5. Bootstrap Grafana (first time only)
 make grafana
+# Open http://localhost:3000 — login: admin / admin
+# If datasource shows no data, update it manually:
+#   Connections → Data Sources → MovieAssistantDB
+#   Host: ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech:5432
+#   Database: neondb | User: neondb_owner | SSL Mode: require → Save & Test
 
 # 6. Run the UI
 make streamlit
