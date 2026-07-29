@@ -24,13 +24,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.uv]
-dev-dependencies = [
-    "jupyter>=1.0",
-    "ipykernel>=6.0",
-]
-
-[tool.uv.environment-markers]
 required-environments = [
     "sys_platform == 'linux'",
-    "sys_platform == 'darwin'",
+    "sys_platform == 'darwin' and platform_machine == 'x86_64'",
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.0",
+    "ipykernel>=6.0",
 ]
