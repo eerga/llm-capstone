@@ -10,7 +10,8 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 ## Demo Video
 
-_(add YouTube video link here)_
+- [Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc)
+- [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8)
 
 ---
 
@@ -141,6 +142,8 @@ Overview and keywords matter more than title for movie retrieval.
 
 ## Local Setup (Path A)
 
+> 📹 **Don't want to run the code?** Watch the [Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc) instead.
+
 Everything runs on your machine via Docker Compose.
 
 ### Prerequisites
@@ -200,6 +203,8 @@ make streamlit
 ---
 
 ## 🌐 Cloud Setup (Path B)
+
+> 📹 **Don't want to run the code?** Watch the [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) instead.
 
 Run the UI on Streamlit Community Cloud, store data in Neon Postgres, and monitor via Grafana Cloud — all free tiers.
 
