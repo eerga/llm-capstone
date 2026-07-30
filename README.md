@@ -8,14 +8,16 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 ---
 
-## Demo Video
+## Demo Videos
 
-- [Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc)
-- [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8)
-- [Kestra Ingestion Pipeline](https://youtu.be/_YJ5kznu8gU)
-- [Fetch & Prepare Data (fetch_movies.py + 01_data_prep.py)](https://youtu.be/5dS3Tm3RWxo)
-- [Retrieval Evaluation (02_rag_test.py)](https://youtu.be/DtdneJh5ZfE)
-- [Ground Truth Generation (03_generate_ground_truth.py)](https://youtu.be/GAjhQz4tDIQ) _(note: some brief black screen moments in the video — no crucial info is missed)_
+| Video | README Section |
+|---|---|
+| [Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc) | [Local Setup (Path A)](#local-setup-path-a) |
+| [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) | [Cloud Setup (Path B)](#-cloud-setup-path-b) |
+| [Kestra Ingestion Pipeline](https://youtu.be/_YJ5kznu8gU) | [Ingestion Pipeline (Kestra)](#ingestion-pipeline-kestra) |
+| [Fetch & Prepare Data](https://youtu.be/5dS3Tm3RWxo) | [Local Setup → Step 3](#steps) |
+| [Retrieval Evaluation (02_rag_test.py)](https://youtu.be/DtdneJh5ZfE) | [Evaluation → Retrieval](#retrieval-evaluation) |
+| [Ground Truth Generation (03_generate_ground_truth.py)](https://youtu.be/GAjhQz4tDIQ) | [Evaluation → Ground Truth](#how-ground-truth-was-generated) _(note: some brief black screen moments — no crucial info missed)_ |
 
 ---
 
@@ -62,10 +64,31 @@ When you type a question, the system:
 | API | Flask | Optional — for programmatic/curl access to the same pipeline |
 | Storage | PostgreSQL 16 (local) or [Neon](https://neon.tech) (cloud) | Free serverless Postgres |
 | Monitoring | Grafana (local Docker or [Grafana Cloud](https://grafana.com) free tier) | 7-panel dashboard |
-| Ingestion | **Option A — Python script:** `data/fetch_movies.py` → `notebooks/01-data-prep.ipynb` → `data/movies_clean.csv` | Manual, run once |
-| Ingestion | **Option B — Kestra:** automated weekly flow → `data/movies_clean_kestra.csv` (see [Ingestion Pipeline](#ingestion-pipeline-kestra)) | Scheduled, no manual steps |
+| Ingestion | **Option A — Python script:** `data/fetch_movies.py` → `prep_scripts/01_data_prep.py` → `data/movies_clean.csv` ([📹 video](https://youtu.be/5dS3Tm3RWxo)) | Manual, run once |
+| Ingestion | **Option B — Kestra:** automated weekly flow → `data/movies_clean_kestra.csv` ([📹 video](https://youtu.be/_YJ5kznu8gU), see [Ingestion Pipeline](#ingestion-pipeline-kestra)) | Scheduled, no manual steps |
 
 ---
+---
+
+## Makefile Targets
+
+```bash
+make help  # show all targets
+```
+
+| Target | What it does |
+|---|---|
+| `make up` | Build and start all Docker services (detached) |
+| `make down` | Stop all services |
+| `make streamlit` | Run Streamlit UI locally (http://localhost:8501) |
+| `make streamlit-cloud` | Run Streamlit UI with Neon Postgres |
+| `make grafana` | Bootstrap Grafana datasource + dashboard |
+| `make test` | Send a test question to the Flask API |
+| `make kestra-up` | Start Kestra + its Postgres (http://localhost:8080) |
+| `make kestra-ingest` | Trigger the movie ingestion flow |
+| `make kestra-copy` | Download Kestra-generated CSV to `data/` |
+| `make restart` | `down` + `up` + `grafana` |
+
 
 ## Ingestion Pipeline (Kestra)
 
@@ -308,37 +331,6 @@ make streamlit-cloud
 
 ---
 
-## Makefile Targets
-
-```bash
-make help  # show all targets
-```
-
-| Target | What it does |
-|---|---|
-| `make up` | Build and start all Docker services (detached) |
-| `make down` | Stop all services |
-| `make streamlit` | Run Streamlit UI locally (http://localhost:8501) |
-| `make streamlit-cloud` | Run Streamlit UI with Neon Postgres |
-| `make grafana` | Bootstrap Grafana datasource + dashboard |
-| `make test` | Send a test question to the Flask API |
-| `make kestra-up` | Start Kestra + its Postgres (http://localhost:8080) |
-| `make kestra-ingest` | Trigger the movie ingestion flow |
-| `make kestra-copy` | Download Kestra-generated CSV to `data/` |
-| `make restart` | `down` + `up` + `grafana` |
-
----
-
-## Cleanup
-
-```bash
-make down
-```
-
-Stops all Docker services (app, Postgres, Grafana, Kestra). Data in named volumes is preserved — run `docker volume rm llm-capstone_postgres_data` to wipe the local database.
-
----
-
 ## API
 
 The Flask API runs locally at `http://localhost:5000` when `make up` is active.
@@ -359,3 +351,13 @@ Override model or prompt per-request:
 ```json
 {"question": "...", "model": "gpt-5.4-mini", "prompt_version": "b"}
 ```
+
+---
+
+## Cleanup
+
+```bash
+make down
+```
+
+Stops all Docker services (app, Postgres, Grafana, Kestra). Data in named volumes is preserved — run `docker volume rm llm-capstone_postgres_data` to wipe the local database.
