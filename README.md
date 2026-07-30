@@ -370,16 +370,6 @@ The app is already deployed at [movie-recommend67.streamlit.app](https://movie-r
 
 ---
 
-## Future Work
-
-| Idea | What it takes |
-|---|---|
-| **Add cast & language fields** | Fetch `cast` and `original_language` from TMDB API, add to `movies_clean.csv` and minsearch/FAISS index |
-| **Multilingual assistant** | Swap embedding model to `paraphrase-multilingual-MiniLM-L12-v2`, add language instruction to LLM prompt, regenerate ground truth in multiple languages |
-| **Query rewriting** | Add a pre-RAG step that rewrites vague queries into more retrieval-friendly ones using an LLM |
-| **Document re-ranking** | After retrieval, use a cross-encoder model to re-rank results before sending to the LLM |
-| **Persistent public deployment** | Deploy Flask + Postgres to a permanent cloud service (Fly.io, Google Cloud Run) for a always-on demo |
-
 ---
 
 ## Cleanup
@@ -393,3 +383,17 @@ To also wipe the local database:
 ```bash
 docker volume rm llm-capstone_postgres_data
 ```
+
+---
+
+## Future Work
+
+| Idea | What it takes |
+|---|---|
+| **Add cast & language fields** | Fetch `cast` and `original_language` from TMDB API, add to `movies_clean.csv` and minsearch/FAISS index |
+| **Multilingual assistant** | Swap embedding model to `paraphrase-multilingual-MiniLM-L12-v2`, add language instruction to LLM prompt, regenerate ground truth in multiple languages |
+| **Query rewriting** | Add a pre-RAG step that rewrites vague queries into more retrieval-friendly ones using an LLM |
+| **Document re-ranking** | After retrieval, use a cross-encoder model to re-rank results before sending to the LLM |
+| **Persistent public deployment** | Deploy Flask + Postgres to a permanent cloud service (Fly.io, Google Cloud Run) for a always-on demo |
+
+---
