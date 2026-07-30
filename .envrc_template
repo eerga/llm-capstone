@@ -15,7 +15,7 @@ POSTGRES_HOST=ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech
 POSTGRES_PORT=5432
 POSTGRES_DB=neondb
 POSTGRES_USER=neondb_owner
-POSTGRES_PASSWORD=npg_0G7xfziNoTXc
+POSTGRES_PASSWORD=npg_jlHmPQxA0q3E
 DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/${POSTGRES_DB}?sslmode=require"
 
 # Grafana
