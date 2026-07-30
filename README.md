@@ -65,6 +65,8 @@ When you type a question, the system:
 
 ## Ingestion Pipeline (Kestra)
 
+> 📹 **Watch the [Kestra Ingestion Walkthrough](https://youtu.be/_YJ5kznu8gU)** to see the pipeline in action.
+
 Movie data is fetched and cleaned automatically via a [Kestra](https://kestra.io) workflow (`kestra/flows/movie_ingestion.yaml`):
 
 1. Fetches ~2000 movies from the TMDB API (`/discover/movie`)
