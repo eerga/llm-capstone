@@ -356,12 +356,7 @@ User feedback (👍/👎) submitted via the Streamlit UI is stored in the `feedb
    ```
 4. **Deploy**
 
-### Run locally with Neon
-
-```bash
-make streamlit-cloud
-# Loads DATABASE_URL from .envrc → writes to Neon
-```
+The app is already deployed at [movie-recommend67.streamlit.app](https://movie-recommend67.streamlit.app) — no need to redeploy unless you want your own instance.
 
 ---
 
@@ -369,13 +364,9 @@ make streamlit-cloud
 
 | Service | URL | Notes |
 |---|---|---|
-| Streamlit UI | [movie-recommend67.streamlit.app](https://movie-recommend67.streamlit.app) | May expire after ~14 days · works on mobile too if desktop browser has issues |
-| Grafana Dashboard | [wisemullet536.grafana.net](https://wisemullet536.grafana.net/d/movie-assistant/movie-assistant?orgId=1&from=now-6h&to=now&timezone=browser&refresh=30s) | May expire after ~14 days · email [erikaergart@gmail.com](mailto:erikaergart@gmail.com) to request view access |
-| Database | [Neon Postgres](https://neon.tech) — `ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech` | Free tier |
-
-> **Want to see the database?** Feel free to email [erikaergart@gmail.com](mailto:erikaergart@gmail.com) and I'll invite you to have access. Alternatively, I can send you a screenshot of the request and answer stored in the database if you're curious.
-
----
+| Streamlit UI | [movie-recommend67.streamlit.app](https://movie-recommend67.streamlit.app) | Stays live as long as OpenAI tokens are available · works on mobile too |
+| Grafana Dashboard | [wisemullet536.grafana.net](https://wisemullet536.grafana.net/d/movie-assistant/movie-assistant?orgId=1&from=now-6h&to=now&timezone=browser&refresh=30s) | Grafana Cloud free tier — expires ~14 days after 2026-07-27 · same dashboard available locally via `make grafana` |
+| Database | [Neon Postgres](https://neon.tech) — `ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech` | Email [erikaergart@gmail.com](mailto:erikaergart@gmail.com) to request view access |
 
 ---
 
