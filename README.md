@@ -219,7 +219,7 @@ python data/fetch_movies.py        # fetch ~2000 movies from TMDB API
 python prep_scripts/01_data_prep.py  # clean raw data → movies_clean.csv
 ```
 
-**Optional — Reproduce evaluation results** _(all result CSVs are already in the repo)_
+**4. Optional — Reproduce evaluation results** _(result CSVs and FAISS index files are already in the repo)_
 
 > 📹 Videos are linked in each row below.
 
@@ -229,19 +229,19 @@ python prep_scripts/01_data_prep.py  # clean raw data → movies_clean.csv
 | `python prep_scripts/02_rag_test.py` | Retrieval eval + boost tuning (needs step above) | [📹](https://youtu.be/DtdneJh5ZfE) |
 | `python prep_scripts/04_rag_eval.py` | LLM-as-judge eval (~$1, ~10 min, needs step above) | _(coming soon)_ |
 
-**4. Start all services**
+**5. Start all services**
 ```bash
 make up
 ```
 
-**5. Bootstrap Grafana** _(first time only)_
+**6. Bootstrap Grafana** _(first time only)_
 ```bash
 make grafana
 # Open http://localhost:3000 — login: admin / admin
 ```
 > If datasource shows no data, update it manually: Connections → Data Sources → MovieAssistantDB → Host: `ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech:5432` · Database: `neondb` · User: `neondb_owner` · SSL Mode: `require` → Save & Test
 
-**6. Run the UI**
+**7. Run the UI**
 ```bash
 make streamlit
 # Open http://localhost:8501
