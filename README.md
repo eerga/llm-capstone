@@ -126,7 +126,7 @@ For each of 2000 movies, an LLM generated 3 natural user questions that would ma
 
 ```
 notebooks/03-evaluation-data-generation.ipynb  ┐
-                                                ├→ ground-truth-retrieval-{model}.csv
+                                                 ├→ ground-truth-retrieval-{model}.csv
 prep_scripts/03_generate_ground_truth.py        ┘
 ```
 
