@@ -103,6 +103,8 @@ Movie data is fetched and cleaned automatically via a [Kestra](https://kestra.io
 
 The flow runs on a **weekly schedule** (Sunday 3am) and can be triggered manually.
 
+> **Note:** This project uses `movies_clean.csv` (generated via the Python script ingestion path). The Kestra pipeline outputs `movies_clean_kestra.csv` — all `make` targets and commands are valid, but if you want the app to use the Kestra-generated data, rename the output file to `movies_clean.csv` or update the filename in `kestra/flows/movie_ingestion.yaml`.
+
 ```bash
 make kestra-up      # start Kestra at http://localhost:8080
 make kestra-ingest  # trigger the flow
