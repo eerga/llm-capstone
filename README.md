@@ -5,7 +5,25 @@ Still scrolling for over an hour on Netflix hoping to find something to watch? Y
 Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but not stupid"_, or _"best Coen Brothers films"_ and it retrieves relevant movies from a 2000-title TMDB dataset and synthesises a grounded recommendation — no hallucinated titles, no generic lists.
 
 > [!NOTE]
-> This is a capstone project for the [LLM Zoomcamp 2026](https://github.com/DataTalksClub/llm-zoomcamp) course. It is not for profit and is open for testing.
+> This is a capstone project for the [LLM Zoomcamp 2026](https://github.com/DataTalksClub/llm-zoomcamp) course. It is not for profit and is open for testing. Try it out at [movie-recommend67.streamlit.app](https://movie-recommend67.streamlit.app)!
+
+---
+
+## Contents
+
+- [Demo Videos](#demo-videos)
+- [The Data](#the-data)
+- [How It Works](#how-it-works)
+- [Architecture](#architecture)
+- [Makefile Targets](#makefile-targets)
+- [Ingestion Pipeline (Kestra)](#ingestion-pipeline-kestra)
+- [Evaluation](#evaluation)
+- [Best Configuration (Full Chain)](#best-configuration-full-chain)
+- [Local Setup (Path A)](#local-setup-path-a)
+- [🌐 Cloud Setup (Path B)](#-cloud-setup-path-b)
+- [Live Demo Links](#live-demo-links)
+- [Future Work](#future-work)
+- [Cleanup](#cleanup)
 
 ---
 
