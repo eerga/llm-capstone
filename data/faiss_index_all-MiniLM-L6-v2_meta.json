@@ -2,6 +2,6 @@
   "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
   "num_vectors": 2000,
   "dimension": 384,
-  "built_from": "data/movies_clean.csv",
+  "built_from": "movies_clean.csv",
   "index_type": "IndexFlatIP"
 }

@@ -1,0 +1,7 @@
+{
+  "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-cos-v1",
+  "num_vectors": 2000,
+  "dimension": 384,
+  "built_from": "movies_clean.csv",
+  "index_type": "IndexFlatIP"
+}

@@ -11,6 +11,7 @@ RUN uv sync --locked --no-dev --no-install-project
 
 COPY movie_assistant/ movie_assistant/
 COPY data/movies_clean.csv data/movies_clean.csv
+COPY data/faiss_index_all-MiniLM-L6-v2.bin data/faiss_index_all-MiniLM-L6-v2.bin
 
 ENV PYTHONUNBUFFERED=1
 
