@@ -13,7 +13,6 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 - [Demo Videos](#demo-videos)
 - [The Data](#the-data)
-- [How It Works](#how-it-works)
 - [Architecture](#architecture)
 - [Makefile Targets](#makefile-targets)
 - [Ingestion Pipeline (Kestra)](#ingestion-pipeline-kestra)
@@ -22,8 +21,8 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 - [Local Setup (Path A)](#local-setup-path-a)
 - [🌐 Cloud Setup (Path B)](#-cloud-setup-path-b)
 - [Live Demo Links](#live-demo-links)
-- [Future Work](#future-work)
 - [Cleanup](#cleanup)
+- [Future Work](#future-work)
 
 ---
 
