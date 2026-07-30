@@ -14,7 +14,7 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 | README Section | Video |
 |---|---|
 | [Local Setup (Path A)](#local-setup-path-a) | [📹 Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc) |
-| [Cloud Setup (Path B)](#-cloud-setup-path-b) | [📹 Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) |
+| [Live Demo Links](#live-demo-links) | [📹 Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) |
 | [Ingestion Pipeline (Kestra)](#ingestion-pipeline-kestra) | [📹 Kestra Ingestion Pipeline](https://youtu.be/_YJ5kznu8gU) |
 | [Local Setup → Step 3 (Fetch & Prepare Data)](#steps) | [📹 Fetch & Prepare Data](https://youtu.be/5dS3Tm3RWxo) |
 | [Evaluation → Ground Truth](#how-ground-truth-was-generated) | [📹 Ground Truth Generation](https://youtu.be/GAjhQz4tDIQ) _(some brief black screen moments — no crucial info missed)_ |
@@ -280,7 +280,7 @@ make streamlit
 
 ## 🌐 Cloud Setup (Path B)
 
-> 📹 **Don't want to run the code?** Watch the [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) instead.
+> 📹 **See it in action?** Watch the [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) — shows the live demo rather than deployment steps.
 
 Run the UI on Streamlit Community Cloud, store data in Neon Postgres, and monitor via Grafana Cloud — all free tiers.
 
@@ -360,7 +360,7 @@ The app is already deployed at [movie-recommend67.streamlit.app](https://movie-r
 
 ---
 
-## Live Demo
+## Live Demo Links
 
 | Service | URL | Notes |
 |---|---|---|
