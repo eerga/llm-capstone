@@ -4,7 +4,8 @@ Still scrolling for over an hour on Netflix hoping to find something to watch? Y
 
 Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but not stupid"_, or _"best Coen Brothers films"_ and it retrieves relevant movies from a 2000-title TMDB dataset and synthesises a grounded recommendation — no hallucinated titles, no generic lists.
 
-> **Note:** This is a capstone project for the [LLM Zoomcamp 2026](https://github.com/DataTalksClub/llm-zoomcamp) course. It is not for profit and is open for testing.
+> [!NOTE]
+> This is a capstone project for the [LLM Zoomcamp 2026](https://github.com/DataTalksClub/llm-zoomcamp) course. It is not for profit and is open for testing.
 
 ---
 
@@ -126,8 +127,8 @@ For each of 2000 movies, an LLM generated 3 natural user questions that would ma
 
 ```
 notebooks/03-evaluation-data-generation.ipynb  ┐
-                                                 ├→ ground-truth-retrieval-{model}.csv
-prep_scripts/03_generate_ground_truth.py        ┘
+                                                ├→ ground-truth-retrieval-{model}.csv
+prep_scripts/03_generate_ground_truth.py       ┘
 ```
 
 ### Retrieval evaluation
