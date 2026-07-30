@@ -196,44 +196,53 @@ Everything runs on your machine via Docker Compose.
 
 ### Steps
 
+**1. Clone and install**
 ```bash
-# 1. Clone and install
 git clone https://github.com/eerga/llm-capstone.git
 uv lock && uv sync
-
+```
 > ⚠️ If the movie-assistant environment did not activate automatically, run: `source .venv/bin/activate`
 
-# 2. Configure environment
+**2. Configure environment**
+```bash
 cp .envrc_template .envrc
 # Fill in OPENAI_API_KEY and TMDB_API_KEY
 source .envrc
+```
 
-# 3. Fetch and prepare data (optional — only needed to regenerate movies_clean.csv)
-# python data/fetch_movies.py                  # fetch ~2000 movies from TMDB API
-# python prep_scripts/01_data_prep.py          # clean raw data → movies_clean.csv
+**3. Fetch and prepare data** _(optional — `movies_clean.csv` is already in the repo)_
 
-> 💡 `movies_clean.csv` is already included in the repo — skip these if you just want to run the app
+> 💡 Skip this step if you just want to run the app.
 
-> 📹 **Optional step videos:** [Fetch & Prepare Data](https://youtu.be/5dS3Tm3RWxo) · [Ground Truth Generation](https://youtu.be/GAjhQz4tDIQ) · [Retrieval Evaluation](https://youtu.be/DtdneJh5ZfE)
+```bash
+python data/fetch_movies.py        # fetch ~2000 movies from TMDB API
+python prep_scripts/01_data_prep.py  # clean raw data → movies_clean.csv
+```
 
-# Optional — generate ground truth and run evaluations (only needed to reproduce eval results):
-# python prep_scripts/03_generate_ground_truth.py  # 2. generate 6000 Q&A pairs per model (~$2, ~30 min)
-# python prep_scripts/03_generate_ground_truth.py  # 2. generate 6000 Q&A pairs per model (~$2, ~30 min)
-# python prep_scripts/02_rag_test.py               # 3. retrieval eval + boost tuning (needs step 2)
-# python prep_scripts/04_rag_eval.py               # 4. LLM-as-judge eval (~$1, ~10 min, needs step 2)
+**Optional — reproduce evaluation results**
 
-# 4. Start all services (Postgres + Flask API + Grafana)
+> 📹 Videos are linked in each row below.
+
+| Script | What it does | Video |
+|---|---|---|
+| `python prep_scripts/03_generate_ground_truth.py` | Generate 6000 Q&A pairs per model (~$2, ~30 min) | [📹](https://youtu.be/GAjhQz4tDIQ) |
+| `python prep_scripts/02_rag_test.py` | Retrieval eval + boost tuning (needs step above) | [📹](https://youtu.be/DtdneJh5ZfE) |
+| `python prep_scripts/04_rag_eval.py` | LLM-as-judge eval (~$1, ~10 min, needs step above) | _(coming soon)_ |
+
+**4. Start all services**
+```bash
 make up
+```
 
-# 5. Bootstrap Grafana (first time only)
+**5. Bootstrap Grafana** _(first time only)_
+```bash
 make grafana
 # Open http://localhost:3000 — login: admin / admin
-# If datasource shows no data, update it manually:
-#   Connections → Data Sources → MovieAssistantDB
-#   Host: ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech:5432
-#   Database: neondb | User: neondb_owner | SSL Mode: require → Save & Test
+```
+> If datasource shows no data, update it manually: Connections → Data Sources → MovieAssistantDB → Host: `ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech:5432` · Database: `neondb` · User: `neondb_owner` · SSL Mode: `require` → Save & Test
 
-# 6. Run the UI
+**6. Run the UI**
+```bash
 make streamlit
 # Open http://localhost:8501
 ```
