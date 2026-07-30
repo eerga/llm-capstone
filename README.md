@@ -10,15 +10,15 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 ## Demo Videos
 
-| Video | README Section |
+| README Section | Video |
 |---|---|
-| [Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc) | [Local Setup (Path A)](#local-setup-path-a) |
-| [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) | [Cloud Setup (Path B)](#-cloud-setup-path-b) |
-| [Kestra Ingestion Pipeline](https://youtu.be/_YJ5kznu8gU) | [Ingestion Pipeline (Kestra)](#ingestion-pipeline-kestra) |
-| [Fetch & Prepare Data](https://youtu.be/5dS3Tm3RWxo) | [Local Setup → Step 3](#steps) |
-| [Retrieval Evaluation (02_rag_test.py)](https://youtu.be/DtdneJh5ZfE) | [Evaluation → Retrieval](#retrieval-evaluation) |
-| [Ground Truth Generation (03_generate_ground_truth.py)](https://youtu.be/GAjhQz4tDIQ) | [Evaluation → Ground Truth](#how-ground-truth-was-generated) _(note: some brief black screen moments — no crucial info missed)_ |
-| [LLM-as-Judge Evaluation (04_rag_eval.py)](https://youtu.be/YjVNnMFsH18) | [Evaluation → LLM-as-judge](#llm-as-judge-evaluation) |
+| [Local Setup (Path A)](#local-setup-path-a) | [📹 Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc) |
+| [Cloud Setup (Path B)](#-cloud-setup-path-b) | [📹 Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) |
+| [Ingestion Pipeline (Kestra)](#ingestion-pipeline-kestra) | [📹 Kestra Ingestion Pipeline](https://youtu.be/_YJ5kznu8gU) |
+| [Local Setup → Step 3 (Fetch & Prepare Data)](#steps) | [📹 Fetch & Prepare Data](https://youtu.be/5dS3Tm3RWxo) |
+| [Evaluation → Ground Truth](#how-ground-truth-was-generated) | [📹 Ground Truth Generation](https://youtu.be/GAjhQz4tDIQ) _(some brief black screen moments — no crucial info missed)_ |
+| [Evaluation → Retrieval](#retrieval-evaluation) | [📹 Retrieval Evaluation](https://youtu.be/DtdneJh5ZfE) |
+| [Evaluation → LLM-as-judge](#llm-as-judge-evaluation) | [📹 LLM-as-Judge Evaluation](https://youtu.be/YjVNnMFsH18) |
 
 ---
 
@@ -219,10 +219,10 @@ source .envrc
 
 > 💡 Skip this step if you just want to run the app.
 
-```bash
-python data/fetch_movies.py        # fetch ~2000 movies from TMDB API
-python prep_scripts/01_data_prep.py  # clean raw data → movies_clean.csv
-```
+| Script | What it does | Video |
+|---|---|---|
+| `python data/fetch_movies.py` | Fetch ~2000 movies from TMDB API | [📹](https://youtu.be/5dS3Tm3RWxo) |
+| `python prep_scripts/01_data_prep.py` | Clean raw data → `movies_clean.csv` | ↑ same video |
 
 **4. Optional — Reproduce evaluation results** _(result CSVs and FAISS index files are already in the repo)_
 
