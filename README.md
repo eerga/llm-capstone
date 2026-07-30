@@ -241,7 +241,8 @@ Everything runs on your machine via Docker Compose.
 git clone https://github.com/eerga/llm-capstone.git
 uv lock && uv sync
 ```
-> ⚠️ If the movie-assistant environment did not activate automatically, run: `source .venv/bin/activate`
+> [!CAUTION]
+> If the movie-assistant environment did not activate automatically, run: `source .venv/bin/activate`
 
 **2. Configure environment**
 ```bash
@@ -252,6 +253,7 @@ source .envrc
 
 **3. Optional — Fetch and prepare data** _(`movies_clean.csv` is already in the repo)_
 
+> [!TIP]
 > 💡 Skip this step if you just want to run the app.
 
 | Script | What it does | Video |
@@ -261,6 +263,7 @@ source .envrc
 
 **4. Optional — Reproduce evaluation results** _(result CSVs and FAISS index files are already in the repo)_
 
+> [!TIP]
 > 📹 Videos are linked in each row below.
 
 | Script | What it does | Video |
@@ -279,7 +282,7 @@ make up
 make grafana
 # Open http://localhost:3000 — login: admin / admin
 ```
-> [!CAUTION]
+> [!TIP]
 > After `make grafana`, the dashboard may show "No data" on first load. This is a Grafana quirk — go to **Connections → Data Sources → MovieAssistantDB → Save & Test**, then reload the dashboard tab. This is a one-time step per fresh Grafana volume.
 
 ![Grafana Dashboard (local)](img/Grafana_dashboard.png)
