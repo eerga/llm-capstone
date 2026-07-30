@@ -243,17 +243,15 @@ make grafana
 ```
 > If datasource shows no data, update it manually: Connections → Data Sources → MovieAssistantDB → Host: `ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech:5432` · Database: `neondb` · User: `neondb_owner` · SSL Mode: `require` → Save & Test
 
+![Grafana Dashboard (local)](img/Grafana_dashboard.png)
+
 **7. Run the UI**
 ```bash
 make streamlit
 # Open http://localhost:8501
 ```
 
-### Screenshots
-
 ![Streamlit UI](img/streamlit.png)
-
-![Grafana Dashboard (local)](img/Grafana_dashboard.png)
 
 ---
 
