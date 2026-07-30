@@ -10,10 +10,10 @@ import psycopg2
 from psycopg2.extras import DictCursor
 from dotenv import load_dotenv
 
-# Load .envrc or .env from project root
+# Load .envrc or .env from project root with interpolation enabled
 _ROOT = Path(__file__).parent.parent
-load_dotenv(_ROOT / ".envrc")
-load_dotenv(_ROOT / ".env")
+load_dotenv(_ROOT / ".envrc", override=True, interpolate=True)
+load_dotenv(_ROOT / ".env", override=True, interpolate=True)
 
 def _conn():
     database_url = os.getenv("DATABASE_URL")

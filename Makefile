@@ -1,4 +1,4 @@
-.PHONY: up down build streamlit streamlit-cloud grafana test kestra-up kestra-ingest kestra-copy restart help
+.PHONY: up down build streamlit streamlit-cloud grafana kestra-up kestra-ingest kestra-copy restart help
 
 help:
 	@echo ""
@@ -12,7 +12,6 @@ help:
 	@echo "  make streamlit      Run Streamlit UI locally (http://localhost:8501)"
 	@echo "  make streamlit-cloud Run Streamlit UI with Neon Postgres (http://localhost:8501)"
 	@echo "  make grafana        Bootstrap Grafana datasource + dashboard (http://localhost:3000)"
-	@echo "  make test           Send a test question to the Flask API"
 	@echo ""
 	@echo "  make kestra-up      Start Kestra + its Postgres (http://localhost:8080)"
 	@echo "  make kestra-ingest  Trigger the movie data ingestion flow via API"
@@ -42,11 +41,6 @@ grafana:
 	@echo ""
 	@echo "Grafana dashboard: http://localhost:3000 (login: admin / admin)"
 	@echo ""
-
-test:
-	curl -s -X POST http://localhost:5000/question \
-	  -H 'Content-Type: application/json' \
-	  -d '{"question": "mind-bending sci-fi like Inception"}' | python3 -m json.tool
 
 kestra-up:
 	export $$(grep -v '^#' .envrc | sed 's/#.*//' | grep '=' | xargs) && \

@@ -10,13 +10,13 @@ SEARCH_METHOD=rrf               # rrf | minsearch | faiss
 EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 
 # PostgreSQL (Neon — shared test database, read/write access for reviewers)
-# Contact erikaergart@gmail.com to get your own Neon instance
-DATABASE_URL="postgresql://neondb_owner:npg_0G7xfziNoTXc@ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech/neondb?sslmode=require"
+# Contact erikaergart@gmail.com to view the Movie Assistant Neon instance
 POSTGRES_HOST=ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech
 POSTGRES_PORT=5432
 POSTGRES_DB=neondb
 POSTGRES_USER=neondb_owner
 POSTGRES_PASSWORD=npg_0G7xfziNoTXc
+DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/${POSTGRES_DB}?sslmode=require"
 
 # Grafana
 GRAFANA_URL=http://localhost:3000
