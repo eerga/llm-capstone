@@ -108,7 +108,8 @@ Instead of remembering long Docker and Python commands, this project uses a `Mak
 
 ## Ingestion Pipeline (Kestra)
 
-> 📹 **Watch the [Kestra Ingestion Walkthrough](https://youtu.be/_YJ5kznu8gU)** to see the pipeline in action.
+> [!NOTE]
+> 📹 Watch the [Kestra Ingestion Walkthrough](https://youtu.be/_YJ5kznu8gU) to see the pipeline in action.
 
 Movie data is fetched and cleaned automatically via a [Kestra](https://kestra.io) workflow (`kestra/flows/movie_ingestion.yaml`):
 
@@ -219,9 +220,11 @@ Combined result: **hit_rate=0.620, MRR=0.409** (on 500-question tuning sample). 
 
 ## Local Setup (Path A)
 
-> 📹 **Don't want to run the code?** Watch the [Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc) instead.
+> [!NOTE]
+> 📹 Don't want to run the code? Watch the [Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc) instead.
 
-> ⚠️ **Older OS / Intel Mac issues?** I tried my best to support older platforms, but if your local setup fails, the easiest fallback is [GitHub Codespaces](https://github.com/features/codespaces) — open the repo, click **Code → Codespaces → New codespace**, and run the same steps there (Linux, no platform issues).
+> [!WARNING]
+> ⚠️ Older OS / Intel Mac issues? I tried my best to support older platforms, but if your local setup fails, the easiest fallback is [GitHub Codespaces](https://github.com/features/codespaces) — open the repo, click **Code → Codespaces → New codespace**, and run the same steps there (Linux, no platform issues).
 
 Everything runs on your machine via Docker Compose.
 
@@ -292,7 +295,8 @@ make streamlit
 
 ## 🌐 Cloud Setup (Path B)
 
-> 📹 **See it in action?** Watch the [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) — shows the live demo rather than deployment steps.
+> [!NOTE]
+> 📹 See it in action? Watch the [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8) — shows the live demo rather than deployment steps.
 
 Run the UI on Streamlit Community Cloud, store data in Neon Postgres, and monitor via Grafana Cloud — all free tiers.
 
