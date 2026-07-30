@@ -18,6 +18,7 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 | [Fetch & Prepare Data](https://youtu.be/5dS3Tm3RWxo) | [Local Setup → Step 3](#steps) |
 | [Retrieval Evaluation (02_rag_test.py)](https://youtu.be/DtdneJh5ZfE) | [Evaluation → Retrieval](#retrieval-evaluation) |
 | [Ground Truth Generation (03_generate_ground_truth.py)](https://youtu.be/GAjhQz4tDIQ) | [Evaluation → Ground Truth](#how-ground-truth-was-generated) _(note: some brief black screen moments — no crucial info missed)_ |
+| [LLM-as-Judge Evaluation (04_rag_eval.py)](https://youtu.be/YjVNnMFsH18) | [Evaluation → LLM-as-judge](#llm-as-judge-evaluation) |
 
 ---
 
@@ -160,12 +161,14 @@ Overview and keywords matter more than title for movie retrieval.
 
 | Model | Prompt | RELEVANT% | PARTLY_RELEVANT% | NON_RELEVANT% | Cost |
 |---|---|---|---|---|---|
-| gpt-5.6-luna | B | **77.5%** | 22.0% | 0.5% | $0.27 |
-| gpt-5.4-mini | B | 75.0% | 24.5% | 0.5% | $0.17 |
-| gpt-5.6-luna | A | 72.0% | 26.5% | 1.5% | $0.29 |
-| gpt-5.4-mini | A | 69.0% | 31.0% | 0.0% | $0.18 |
+| gpt-5.6-luna | A | **82.0%** | 18.0% | 0.0% | $0.28 |
+| gpt-5.6-luna | B | 81.5% | 18.0% | 0.5% | $0.27 |
+| gpt-5.4-mini | A | 79.0% | 20.0% | 1.0% | $0.18 |
+| gpt-5.4-mini | B | 76.5% | 22.5% | 1.0% | $0.17 |
 
-**Prompt B consistently outperforms Prompt A.** `gpt-5.4-mini + Prompt B` offers the best cost/quality trade-off. **`gpt-5.6-luna + Prompt B` was chosen for this project** — best overall quality at 77.5% RELEVANT.
+**`gpt-5.6-luna + Prompt A`** was chosen for this project — best overall quality at 82.0% RELEVANT. `gpt-5.4-mini + Prompt A` offers the best cost/quality trade-off at 79% RELEVANT for $0.18.
+
+> **Note:** In a previous evaluation run, Prompt B outperformed Prompt A — however the gap was only ~0.5% in RELEVANT%, which is within noise. Results can vary slightly between runs depending on the LLM judge's responses.
 
 ---
 
@@ -229,7 +232,7 @@ python prep_scripts/01_data_prep.py  # clean raw data → movies_clean.csv
 |---|---|---|
 | `python prep_scripts/03_generate_ground_truth.py` | Generate 6000 Q&A pairs per model (~$2, ~30 min) | [📹](https://youtu.be/GAjhQz4tDIQ) |
 | `python prep_scripts/02_rag_test.py` | Retrieval eval + boost tuning (needs step above) | [📹](https://youtu.be/DtdneJh5ZfE) |
-| `python prep_scripts/04_rag_eval.py` | LLM-as-judge eval (~$1, ~10 min, needs step above) | _(coming soon)_ |
+| `python prep_scripts/04_rag_eval.py` | LLM-as-judge eval (~$1, ~10 min, needs step above) | [📹](https://youtu.be/YjVNnMFsH18) |
 
 **5. Start all services**
 ```bash
