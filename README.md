@@ -185,9 +185,10 @@ Overview and keywords matter more than title for movie retrieval.
 | gpt-5.4-mini | A | 79.0% | 20.0% | 1.0% | $0.18 |
 | gpt-5.4-mini | B | 76.5% | 22.5% | 1.0% | $0.17 |
 
-**`gpt-5.6-luna + Prompt A`** was chosen for this project — best overall quality at 82.0% RELEVANT. `gpt-5.4-mini + Prompt A` offers the best cost/quality trade-off at 79% RELEVANT for $0.18.
+**`gpt-5.6-luna + Prompt B`** was chosen for this project — friendlier tone and consistently returns 2-3 movie recommendations instead of just 1. While Prompt A scored marginally higher (82% vs 81.5% RELEVANT) in the latest run, the gap is within noise (~0.5%) and the user experience with Prompt B is noticeably better. `gpt-5.4-mini + Prompt A` offers the best cost/quality trade-off at 79% RELEVANT for $0.18.
 
-> **Note:** In a previous evaluation run, Prompt B outperformed Prompt A — however the gap was only ~0.5% in RELEVANT%, which is within noise. Results can vary slightly between runs depending on the LLM judge's responses.
+> [!NOTE]
+> Results can vary slightly between evaluation runs depending on the LLM judge's responses. In a previous run, Prompt B outperformed Prompt A — the scores are close enough that either is a valid choice.
 
 ---
 
