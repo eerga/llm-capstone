@@ -146,6 +146,8 @@ Overview and keywords matter more than title for movie retrieval.
 
 > 📹 **Don't want to run the code?** Watch the [Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc) instead.
 
+> ⚠️ **Older OS / Intel Mac issues?** I tried my best to support older platforms, but if your local setup fails, the easiest fallback is [GitHub Codespaces](https://github.com/features/codespaces) — open the repo, click **Code → Codespaces → New codespace**, and run the same steps there (Linux, no platform issues).
+
 Everything runs on your machine via Docker Compose.
 
 ### Prerequisites
