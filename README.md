@@ -379,9 +379,9 @@ Stops all Docker services (app, Postgres, Grafana, Kestra). Data in named volume
 make down
 ```
 
-To also wipe the local database:
+To also wipe the local database and Grafana data:
 ```bash
-docker volume rm llm-capstone_postgres_data
+docker volume rm llm-capstone_postgres_data llm-capstone_grafana_data
 ```
 
 ---
