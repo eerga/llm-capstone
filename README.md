@@ -377,15 +377,13 @@ The app is already deployed at [movie-recommend67.streamlit.app](https://movie-r
 
 ---
 
-## Live Demo Links
+## Live Demo Links [📹 Demo](https://youtu.be/Np43HWALhf8)
 
 | Service | URL | Notes |
 |---|---|---|
 | Streamlit UI | [movie-recommend67.streamlit.app](https://movie-recommend67.streamlit.app) | Stays live as long as OpenAI tokens are available · works on mobile too |
 | Grafana Dashboard | [wisemullet536.grafana.net](https://wisemullet536.grafana.net/d/movie-assistant/movie-assistant?orgId=1&from=now-6h&to=now&timezone=browser&refresh=30s) | Grafana Cloud free tier — expires ~14 days after 2026-07-27 · same dashboard available locally via `make grafana` |
 | Database | [Neon Postgres](https://neon.tech) — `ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech` | Email [erikaergart@gmail.com](mailto:erikaergart@gmail.com) to request view access |
-
----
 
 ---
 
