@@ -62,7 +62,6 @@ When you type a question, the system:
 | Prompt variants | A (Claude-authored), B (ChatGPT-authored) | A/B tested — B wins by ~5% RELEVANT |
 | Pipeline typing | pydantic-ai | Typed `RAGResponse` model |
 | UI | Streamlit | Calls RAG pipeline directly; no Flask needed for the UI |
-| API | Flask | Optional — for programmatic/curl access to the same pipeline |
 | Storage | PostgreSQL 16 (local) or [Neon](https://neon.tech) (cloud) | Free serverless Postgres |
 | Monitoring | Grafana (local Docker or [Grafana Cloud](https://grafana.com) free tier) | 7-panel dashboard |
 | Ingestion | **Option A — Python script:** `data/fetch_movies.py` → `prep_scripts/01_data_prep.py` → `data/movies_clean.csv` ([📹 video](https://youtu.be/5dS3Tm3RWxo)) | Manual, run once |
