@@ -7,6 +7,7 @@ from disk on subsequent startups — avoids re-encoding 2000 movies every boot.
 """
 
 import os
+import json
 import numpy as np
 import pandas as pd
 import faiss
@@ -17,6 +18,7 @@ from movie_assistant.minsearch import Index
 
 DATA_PATH = Path(__file__).parent.parent / "data" / "movies_clean.csv"
 FAISS_INDEX_PATH = Path(__file__).parent.parent / "data" / "faiss_index.bin"
+FAISS_META_PATH = Path(__file__).parent.parent / "data" / "faiss_index_meta.json"
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
 
 TEXT_FIELDS = ["title", "overview", "genres", "keywords", "tagline"]
@@ -42,7 +44,11 @@ def _load():
 
     if FAISS_INDEX_PATH.exists():
         _faiss_index = faiss.read_index(str(FAISS_INDEX_PATH))
-        print(f"Loaded FAISS index from {FAISS_INDEX_PATH}")
+        if FAISS_META_PATH.exists():
+            meta = json.loads(FAISS_META_PATH.read_text())
+            print(f"Loaded FAISS index from {FAISS_INDEX_PATH} (built with {meta.get('embedding_model')})")
+        else:
+            print(f"Loaded FAISS index from {FAISS_INDEX_PATH}")
     else:
         print("Building FAISS index from scratch...")
         texts = [
@@ -54,7 +60,15 @@ def _load():
         _faiss_index = faiss.IndexFlatIP(dim)
         _faiss_index.add(embeddings.astype(np.float32))
         faiss.write_index(_faiss_index, str(FAISS_INDEX_PATH))
-        print(f"Saved FAISS index to {FAISS_INDEX_PATH}")
+        meta = {
+            "embedding_model": EMBEDDING_MODEL,
+            "num_vectors": len(_records),
+            "dimension": int(dim),
+            "built_from": str(DATA_PATH.name),
+            "index_type": "IndexFlatIP",
+        }
+        FAISS_META_PATH.write_text(json.dumps(meta, indent=2))
+        print(f"Saved FAISS index to {FAISS_INDEX_PATH} (embedding_model={EMBEDDING_MODEL})")
 
 
 def search_minsearch(query: str, filter_dict: dict | None = None, num_results: int = 10, boost: dict | None = None) -> list[dict]:
