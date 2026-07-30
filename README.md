@@ -176,7 +176,7 @@ Overview and keywords matter more than title for movie retrieval.
 | gpt-5.6-luna | A | 72.0% | 26.5% | 1.5% | $0.29 |
 | gpt-5.4-mini | A | 69.0% | 31.0% | 0.0% | $0.18 |
 
-**Prompt B consistently outperforms Prompt A.** `gpt-5.4-mini + Prompt B` offers the best cost/quality trade-off.
+**Prompt B consistently outperforms Prompt A.** `gpt-5.4-mini + Prompt B` offers the best cost/quality trade-off. **`gpt-5.6-luna + Prompt B` was chosen for this project** — best overall quality at 77.5% RELEVANT.
 
 ---
 
