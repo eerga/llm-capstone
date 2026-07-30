@@ -210,7 +210,7 @@ cp .envrc_template .envrc
 source .envrc
 ```
 
-**3. Fetch and prepare data** _(optional — `movies_clean.csv` is already in the repo)_
+**3. Optional — Fetch and prepare data** _(`movies_clean.csv` is already in the repo)_
 
 > 💡 Skip this step if you just want to run the app.
 
@@ -219,7 +219,7 @@ python data/fetch_movies.py        # fetch ~2000 movies from TMDB API
 python prep_scripts/01_data_prep.py  # clean raw data → movies_clean.csv
 ```
 
-**Optional — reproduce evaluation results**
+**Optional — Reproduce evaluation results** _(all result CSVs are already in the repo)_
 
 > 📹 Videos are linked in each row below.
 
