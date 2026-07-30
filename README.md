@@ -282,7 +282,7 @@ make up
 make grafana
 # Open http://localhost:3000 — login: admin / admin
 ```
-> [!TIP]
+> [!CAUTION]
 > After `make grafana`, the dashboard may show "No data" on first load. This is a Grafana quirk — go to **Connections → Data Sources → MovieAssistantDB → Save & Test**, then reload the dashboard tab. This is a one-time step per fresh Grafana volume.
 
 ![Grafana Dashboard (local)](img/Grafana_dashboard.png)
@@ -340,6 +340,9 @@ ORDER BY f.timestamp DESC LIMIT 10;
 ```
 
 ### Grafana Cloud (free tier)
+
+> [!CAUTION]
+> The Neon database password is intentionally exposed in `.envrc_template` to allow evaluators to connect quickly and see a complete history of requests. I will rotate this secret after evaluation is complete.
 
 1. Sign up at [grafana.com](https://grafana.com) → free tier
 2. **Connections → Data Sources → Add → PostgreSQL**:
