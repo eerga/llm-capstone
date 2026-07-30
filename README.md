@@ -73,7 +73,7 @@ When you type a question, the system:
 
 ## Makefile Targets
 
-Run `make help` to see all targets, or expand below for the full list.
+Instead of remembering long Docker and Python commands, this project uses a `Makefile` to wrap everything into simple `make` commands. Run `make help` to see all targets, or expand below for the full list.
 
 <details>
 <summary>Click to expand Makefile targets</summary>
