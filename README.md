@@ -116,6 +116,17 @@ Hit Rate and MRR measured across 4 methods × 2 embedding models × 2 ground tru
 
 **Winner: RRF + `all-MiniLM-L6-v2`** — best hit rate (0.609); used as the production default.
 
+### Best configuration (full chain)
+
+| Component | Winner | Why |
+|---|---|---|
+| Ground truth model | `gpt-5.6-luna` | Generated higher quality, more natural questions |
+| Embedding model | `all-MiniLM-L6-v2` | Better semantic matching than multi-qa variant |
+| Search method | RRF | Hybrid beats either minsearch or FAISS alone |
+| Boost weights | title=1.0, keywords=2.0, overview=2.0 | Overview and keywords matter more than title for movie retrieval |
+
+Combined result: **hit_rate=0.620, MRR=0.409** (on 500-question tuning sample). All four settings are baked into the production app.
+
 ### Boost tuning
 
 Minsearch boost weights were tuned over 64 combinations on 500 ground truth questions:
