@@ -133,6 +133,12 @@ Hit Rate and MRR measured across 4 methods × 2 embedding models × 2 ground tru
 | GT model | Embedding | Method | Hit Rate | MRR |
 |---|---|---|---|---|
 | gpt-5.6-luna | all-MiniLM-L6-v2 | **rrf** | **0.609** | **0.381** |
+
+<details>
+<summary>Click to see all 12 combinations</summary>
+
+| GT model | Embedding | Method | Hit Rate | MRR |
+|---|---|---|---|---|
 | gpt-5.6-luna | all-MiniLM-L6-v2 | faiss | 0.597 | 0.386 |
 | gpt-5.6-luna | multi-qa-MiniLM-L6-cos-v1 | rrf | 0.582 | 0.361 |
 | gpt-5.6-luna | multi-qa-MiniLM-L6-cos-v1 | faiss | 0.556 | 0.357 |
@@ -144,6 +150,8 @@ Hit Rate and MRR measured across 4 methods × 2 embedding models × 2 ground tru
 | gpt-5.6-luna | multi-qa-MiniLM-L6-cos-v1 | minsearch | 0.388 | 0.193 |
 | gpt-5.4-mini | all-MiniLM-L6-v2 | minsearch | 0.349 | 0.170 |
 | gpt-5.4-mini | multi-qa-MiniLM-L6-cos-v1 | minsearch | 0.349 | 0.170 |
+
+</details>
 
 **Winner: RRF + `all-MiniLM-L6-v2`** — best hit rate (0.609); used as the production default.
 
@@ -157,6 +165,9 @@ Minsearch boost weights were tuned over 64 combinations on 500 ground truth ques
 | **Tuned** | **1.0** | **2.0** | **2.0** | **0.620** | **0.409** |
 
 Overview and keywords matter more than title for movie retrieval.
+
+> [!NOTE]
+> **Boost tuning applies to the minsearch component only.** The 0.620 hit rate above is for tuned minsearch on a 500-question sample. The **0.609 hit rate in the table above** is for the full RRF method on all 6000 questions — RRF uses the tuned minsearch internally alongside FAISS, which is why it outperforms both alone.
 
 ### LLM-as-judge evaluation
 
