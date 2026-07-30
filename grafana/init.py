@@ -71,8 +71,14 @@ def create_datasource():
         "access": "proxy",
         "isDefault": True,
     }
+    # Delete existing datasource first to force password update
+    existing = session.get(f"{GRAFANA_URL}/api/datasources/name/MovieAssistantDB")
+    if existing.status_code == 200:
+        ds_id = existing.json().get("id")
+        session.delete(f"{GRAFANA_URL}/api/datasources/{ds_id}")
+        print("Deleted existing datasource.")
     r = session.post(f"{GRAFANA_URL}/api/datasources", json=payload)
-    if r.status_code in (200, 409):
+    if r.status_code == 200:
         print("Datasource registered.")
     else:
         print(f"Datasource error: {r.status_code} {r.text}")
