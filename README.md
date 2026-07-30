@@ -12,6 +12,10 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 - [Local Testing Walkthrough](https://youtu.be/85XZs0N1xFc)
 - [Cloud Testing Walkthrough](https://youtu.be/Np43HWALhf8)
+- [Kestra Ingestion Pipeline](https://youtu.be/_YJ5kznu8gU)
+- [Fetch & Prepare Data (fetch_movies.py + 01_data_prep.py)](https://youtu.be/5dS3Tm3RWxo)
+- [Retrieval Evaluation (02_rag_test.py)](https://youtu.be/DtdneJh5ZfE)
+- [Ground Truth Generation (03_generate_ground_truth.py)](https://youtu.be/GAjhQz4tDIQ) _(note: some brief black screen moments in the video — no crucial info is missed)_
 
 ---
 
@@ -187,8 +191,10 @@ source .envrc
 
 > 💡 `movies_clean.csv` is already included in the repo — skip these if you just want to run the app
 
-# Optional — generate ground truth and run evaluations (only needed to reproduce eval results)
-# A separate walkthrough video for these steps will be recorded and linked here.
+> 📹 **Optional step videos:** [Fetch & Prepare Data](https://youtu.be/5dS3Tm3RWxo) · [Ground Truth Generation](https://youtu.be/GAjhQz4tDIQ) · [Retrieval Evaluation](https://youtu.be/DtdneJh5ZfE)
+
+# Optional — generate ground truth and run evaluations (only needed to reproduce eval results):
+# python prep_scripts/03_generate_ground_truth.py  # 2. generate 6000 Q&A pairs per model (~$2, ~30 min)
 # python prep_scripts/03_generate_ground_truth.py  # 2. generate 6000 Q&A pairs per model (~$2, ~30 min)
 # python prep_scripts/02_rag_test.py               # 3. retrieval eval + boost tuning (needs step 2)
 # python prep_scripts/04_rag_eval.py               # 4. LLM-as-judge eval (~$1, ~10 min, needs step 2)
