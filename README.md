@@ -71,7 +71,6 @@ When you type a question, the system:
 | Ingestion | **Option B — Kestra:** automated weekly flow → `data/movies_clean_kestra.csv` ([📹 video](https://youtu.be/_YJ5kznu8gU), see [Ingestion Pipeline](#ingestion-pipeline-kestra)) | Scheduled, no manual steps |
 
 ---
----
 
 ## Makefile Targets
 
@@ -126,7 +125,9 @@ make kestra-copy    # download output CSV to data/
 For each of 2000 movies, an LLM generated 3 natural user questions that would make that movie a relevant answer. This produced **6000 ground-truth pairs** per model, used to benchmark retrieval quality.
 
 ```
-notebooks/03-evaluation-data-generation.ipynb → ground-truth-retrieval-{model}.csv
+notebooks/03-evaluation-data-generation.ipynb  ┐
+                                                ├→ ground-truth-retrieval-{model}.csv
+prep_scripts/03_generate_ground_truth.py        ┘
 ```
 
 ### Retrieval evaluation
