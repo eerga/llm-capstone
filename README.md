@@ -244,7 +244,7 @@ make up
 make grafana
 # Open http://localhost:3000 — login: admin / admin
 ```
-> If datasource shows no data, update it manually: Connections → Data Sources → MovieAssistantDB → Host: `ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech:5432` · Database: `neondb` · User: `neondb_owner` · SSL Mode: `require` → Save & Test
+> After `make grafana`, the dashboard may show "No data" on first load. This is a Grafana quirk — go to **Connections → Data Sources → MovieAssistantDB → Save & Test**, then reload the dashboard tab. This is a one-time step per fresh Grafana volume.
 
 ![Grafana Dashboard (local)](img/Grafana_dashboard.png)
 
@@ -350,7 +350,7 @@ make streamlit-cloud
 | Service | URL | Notes |
 |---|---|---|
 | Streamlit UI | [movie-recommend67.streamlit.app](https://movie-recommend67.streamlit.app) | May expire after ~14 days · works on mobile too if desktop browser has issues |
-| Grafana Dashboard | [wisemullet536.grafana.net](https://wisemullet536.grafana.net/d/movie-assistant/movie-assistant?orgId=1&from=now-6h&to=now&timezone=browser&refresh=30s) | May expire after ~14 days |
+| Grafana Dashboard | [wisemullet536.grafana.net](https://wisemullet536.grafana.net/d/movie-assistant/movie-assistant?orgId=1&from=now-6h&to=now&timezone=browser&refresh=30s) | May expire after ~14 days · email [erikaergart@gmail.com](mailto:erikaergart@gmail.com) to request view access |
 | Database | [Neon Postgres](https://neon.tech) — `ep-steep-king-awasy5fu.c-12.us-east-1.aws.neon.tech` | Free tier |
 
 > **Want to see the database?** Feel free to email [erikaergart@gmail.com](mailto:erikaergart@gmail.com) and I'll invite you to have access. Alternatively, I can send you a screenshot of the request and answer stored in the database if you're curious.
