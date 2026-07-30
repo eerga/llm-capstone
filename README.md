@@ -309,6 +309,20 @@ ORDER BY f.timestamp DESC LIMIT 10;
 3. **Save & Test** → green ✓
 4. **Dashboards → Import → Upload JSON** → select `grafana/dashboard.json`
 
+The dashboard has **7 panels**:
+
+| Panel | What it shows |
+|---|---|
+| Last 5 Conversations | Recent questions, answers, model, relevance, cost |
+| Response Time | Latency per request over time |
+| Token Usage | Avg tokens per request over time |
+| Cost Over Time | API spend over time |
+| Model Usage | Breakdown of requests by model |
+| Relevance Distribution | RELEVANT / PARTLY_RELEVANT / NON_RELEVANT pie chart |
+| User Feedback | 👍 Positive vs 👎 Negative feedback pie chart |
+
+User feedback (👍/👎) submitted via the Streamlit UI is stored in the `feedback` table and displayed in the **User Feedback** panel.
+
 ![Grafana Cloud](img/grafana_cloud.png)
 
 ### Streamlit Community Cloud
