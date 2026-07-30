@@ -11,18 +11,13 @@ Ask it things like _"mind-bending sci-fi like Inception"_, _"something funny but
 
 ## Contents
 
-- [Demo Videos](#demo-videos)
-- [The Data](#the-data)
-- [Architecture](#architecture)
-- [Makefile Targets](#makefile-targets)
-- [Ingestion Pipeline (Kestra)](#ingestion-pipeline-kestra)
-- [Evaluation](#evaluation)
-- [Best Configuration (Full Chain)](#best-configuration-full-chain)
-- [Local Setup (Path A)](#local-setup-path-a)
-- [🌐 Cloud Setup (Path B)](#-cloud-setup-path-b)
-- [Live Demo Links](#live-demo-links)
-- [Cleanup](#cleanup)
-- [Future Work](#future-work)
+**Data** · [The Data](#the-data) · [Ingestion Pipeline (Kestra)](#ingestion-pipeline-kestra)
+
+**App** · [Architecture](#architecture) · [Local Setup (Path A)](#local-setup-path-a) · [🌐 Cloud Setup (Path B)](#-cloud-setup-path-b) · [Live Demo Links](#live-demo-links)
+
+**Evaluation** · [Retrieval & Boost Tuning](#evaluation) · [Best Configuration (Full Chain)](#best-configuration-full-chain)
+
+**Other** · [Demo Videos](#demo-videos) · [Makefile Targets](#makefile-targets) · [Cleanup](#cleanup) · [Future Work](#future-work)
 
 ---
 
