@@ -2,7 +2,9 @@
 Retrieval evaluation and boost-tuning script.
 
 Evaluates minsearch, FAISS, and RRF across 2 ground truth datasets and
-2 embedding models. Then runs boost weight grid search on minsearch.
+2 embedding models. Each embedding model gets its own FAISS index file
+(faiss_index_all-MiniLM-L6-v2.bin, faiss_index_multi-qa-MiniLM-L6-cos-v1.bin).
+Then runs boost weight grid search on minsearch.
 Saves results to data/retrieval-eval-results.csv and data/boost-tuning-results.csv.
 """
 
@@ -50,13 +52,22 @@ def main():
     for gt_model in GT_MODELS:
         gt = pd.read_csv(ROOT / f'data/ground-truth-retrieval-{gt_model}.csv')
         print(f'\n=== Ground truth: {gt_model} ({len(gt)} pairs) ===')
+
         for emb_model in EMBEDDING_MODELS:
             print(f'  Loading indexes with {emb_model} ...')
             os.environ['EMBEDDING_MODEL'] = emb_model
+
+            # Reload ingest so each model gets its own index file
             import movie_assistant.ingest as ingest
             importlib.reload(ingest)
+
             emb_short = emb_model.split('/')[-1]
-            for method, fn in [('minsearch', ingest.search_minsearch), ('faiss', ingest.search_faiss), ('rrf', ingest.search_rrf)]:
+
+            for method, fn in [
+                ('minsearch', ingest.search_minsearch),
+                ('faiss', ingest.search_faiss),
+                ('rrf', ingest.search_rrf),
+            ]:
                 print(f'  {method} ...')
                 hr, mrr = hit_rate_mrr(fn, gt)
                 all_rows.append({'gt_model': gt_model, 'embedding': emb_short, 'method': method, 'hit_rate': hr, 'mrr': mrr})
@@ -66,15 +77,17 @@ def main():
     results_df.to_csv(ROOT / 'data/retrieval-eval-results.csv', index=False)
     print(results_df.sort_values('mrr', ascending=False).to_string())
 
-    # Boost tuning
+    # Boost tuning — use best GT model + best embedding
     os.environ['EMBEDDING_MODEL'] = 'sentence-transformers/all-MiniLM-L6-v2'
     import movie_assistant.ingest as ingest
     importlib.reload(ingest)
+
     gt_sample = pd.read_csv(ROOT / 'data/ground-truth-retrieval-gpt-5.6-luna.csv').sample(500, random_state=42).reset_index(drop=True)
+    print(f'\nBoost tuning on {len(gt_sample)} questions')
 
     tune_rows = []
     total = 4 * 4 * 4
-    for i, (tb, kb, ob) in enumerate(itertools.product([1.0,2.0,3.0,5.0], [0.5,1.0,2.0,3.0], [0.5,1.0,1.5,2.0])):
+    for i, (tb, kb, ob) in enumerate(itertools.product([1.0, 2.0, 3.0, 5.0], [0.5, 1.0, 2.0, 3.0], [0.5, 1.0, 1.5, 2.0])):
         boost = {'title': tb, 'keywords': kb, 'overview': ob, 'tagline': 0.5, 'genres': 0.5}
         print(f'[{i+1}/{total}] title={tb}, keywords={kb}, overview={ob}', end=' ... ')
         hr, mrr = hit_rate_mrr(lambda q, b=boost, **_: ingest.search_minsearch(q, boost=b, num_results=10), gt_sample)
@@ -84,6 +97,9 @@ def main():
     tune_df = pd.DataFrame(tune_rows)
     tune_df.to_csv(ROOT / 'data/boost-tuning-results.csv', index=False)
     print(tune_df.sort_values('mrr', ascending=False).head(10).to_string())
+
+    best = tune_df.sort_values('mrr', ascending=False).iloc[0]
+    print(f'\nBest: title={best.title}, keywords={best.keywords}, overview={best.overview} → hit_rate={best.hit_rate}, mrr={best.mrr}')
 
 
 if __name__ == '__main__':

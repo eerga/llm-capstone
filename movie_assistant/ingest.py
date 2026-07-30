@@ -17,9 +17,16 @@ from sentence_transformers import SentenceTransformer
 from movie_assistant.minsearch import Index
 
 DATA_PATH = Path(__file__).parent.parent / "data" / "movies_clean.csv"
-FAISS_INDEX_PATH = Path(__file__).parent.parent / "data" / "faiss_index.bin"
-FAISS_META_PATH = Path(__file__).parent.parent / "data" / "faiss_index_meta.json"
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+
+# Index filename is derived from the model short name so each model gets its own file.
+# The winner (all-MiniLM-L6-v2) is also copied as faiss_index.bin for production use.
+def _index_path(model: str) -> Path:
+    short = model.split("/")[-1]
+    return Path(__file__).parent.parent / "data" / f"faiss_index_{short}.bin"
+
+FAISS_INDEX_PATH = _index_path(EMBEDDING_MODEL)
+FAISS_META_PATH = Path(__file__).parent.parent / "data" / f"faiss_index_{EMBEDDING_MODEL.split('/')[-1]}_meta.json"
 
 TEXT_FIELDS = ["title", "overview", "genres", "keywords", "tagline"]
 KEYWORD_FIELDS = ["release_year", "vote_bucket"]
