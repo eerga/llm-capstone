@@ -279,6 +279,7 @@ make up
 make grafana
 # Open http://localhost:3000 — login: admin / admin
 ```
+> [!CAUTION]
 > After `make grafana`, the dashboard may show "No data" on first load. This is a Grafana quirk — go to **Connections → Data Sources → MovieAssistantDB → Save & Test**, then reload the dashboard tab. This is a one-time step per fresh Grafana volume.
 
 ![Grafana Dashboard (local)](img/Grafana_dashboard.png)
