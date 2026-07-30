@@ -357,27 +357,6 @@ make streamlit-cloud
 
 ---
 
-## API
-
-The Flask API runs locally at `http://localhost:5000` when `make up` is active.
-
-```bash
-# Ask a question
-curl -X POST http://localhost:5000/question \
-  -H 'Content-Type: application/json' \
-  -d '{"question": "sci-fi films with time travel"}'
-
-# Submit feedback
-curl -X POST http://localhost:5000/feedback \
-  -H 'Content-Type: application/json' \
-  -d '{"conversation_id": "<id>", "feedback": 1}'
-```
-
-Override model or prompt per-request:
-```json
-{"question": "...", "model": "gpt-5.4-mini", "prompt_version": "b"}
-```
-
 ---
 
 ## Cleanup
