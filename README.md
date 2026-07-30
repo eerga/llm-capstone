@@ -37,6 +37,9 @@ Movie data is fetched directly from the [TMDB API](https://developer.themoviedb.
 | `release_year` | Year of release |
 | `runtime` | Length in minutes |
 
+> [!NOTE]
+> **💡 Future improvements:** Adding `cast` (lead actors) and `original_language` fields could further improve recommendation quality — cast helps match actor-specific queries ("movies with Tom Hanks"), and language enables filtering for non-English cinema.
+
 **~2000 movies** are retrieved with the following fields:
 
 When you type a question, the system:
@@ -370,6 +373,18 @@ make streamlit-cloud
 > **Want to see the database?** Feel free to email [erikaergart@gmail.com](mailto:erikaergart@gmail.com) and I'll invite you to have access. Alternatively, I can send you a screenshot of the request and answer stored in the database if you're curious.
 
 ---
+
+---
+
+## Future Work
+
+| Idea | What it takes |
+|---|---|
+| **Add cast & language fields** | Fetch `cast` and `original_language` from TMDB API, add to `movies_clean.csv` and minsearch/FAISS index |
+| **Multilingual assistant** | Swap embedding model to `paraphrase-multilingual-MiniLM-L12-v2`, add language instruction to LLM prompt, regenerate ground truth in multiple languages |
+| **Query rewriting** | Add a pre-RAG step that rewrites vague queries into more retrieval-friendly ones using an LLM |
+| **Document re-ranking** | After retrieval, use a cross-encoder model to re-rank results before sending to the LLM |
+| **Persistent public deployment** | Deploy Flask + Postgres to a permanent cloud service (Fly.io, Google Cloud Run) for a always-on demo |
 
 ---
 
