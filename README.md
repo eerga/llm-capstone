@@ -73,9 +73,10 @@ When you type a question, the system:
 
 ## Makefile Targets
 
-```bash
-make help  # show all targets
-```
+Run `make help` to see all targets, or expand below for the full list.
+
+<details>
+<summary>Click to expand Makefile targets</summary>
 
 | Target | What it does |
 |---|---|
@@ -84,12 +85,12 @@ make help  # show all targets
 | `make streamlit` | Run Streamlit UI locally (http://localhost:8501) |
 | `make streamlit-cloud` | Run Streamlit UI with Neon Postgres |
 | `make grafana` | Bootstrap Grafana datasource + dashboard |
-| `make test` | Send a test question to the Flask API |
 | `make kestra-up` | Start Kestra + its Postgres (http://localhost:8080) |
 | `make kestra-ingest` | Trigger the movie ingestion flow |
 | `make kestra-copy` | Download Kestra-generated CSV to `data/` |
 | `make restart` | `down` + `up` + `grafana` |
 
+</details>
 
 ## Ingestion Pipeline (Kestra)
 
