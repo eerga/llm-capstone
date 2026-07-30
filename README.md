@@ -384,8 +384,12 @@ The app is already deployed at [movie-recommend67.streamlit.app](https://movie-r
 
 ## Cleanup
 
+Stops all Docker services (app, Postgres, Grafana, Kestra). Data in named volumes is preserved.
 ```bash
 make down
 ```
 
-Stops all Docker services (app, Postgres, Grafana, Kestra). Data in named volumes is preserved — run `docker volume rm llm-capstone_postgres_data` to wipe the local database.
+To also wipe the local database:
+```bash
+docker volume rm llm-capstone_postgres_data
+```
