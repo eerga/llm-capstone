@@ -234,6 +234,14 @@ Everything runs on your machine via Docker Compose.
 - [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - Docker + Docker Compose
 
+> [!TIP]
+> **Prerequisites**: Make sure Docker is installed and running on your machine before starting!
+
+✅ **Verify Docker installation**
+```bash
+docker run hello-world
+```
+
 ### Steps
 
 **1. Clone and install**

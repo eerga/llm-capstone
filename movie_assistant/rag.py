@@ -23,7 +23,7 @@ SEARCH_METHOD = os.getenv("SEARCH_METHOD", "rrf")
 
 # Per-provider cost per 1M tokens (prompt, completion) in USD
 _COST = {
-    "gpt-5.6-luna":     (1.00,  6.00),
+    "gpt-5.6-luna":     (0.20,  1.20),
     "gpt-5.4-mini":     (0.75,  4.50),
     "gemini-2.0-flash": (0.075, 0.30),
 }
